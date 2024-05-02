@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: trailblazer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/trailblazer
+    username: trailblazer
+    password: secret
+  rabbitmq:
+    username: trailblazer
+    password: secret
