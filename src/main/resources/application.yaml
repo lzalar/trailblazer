@@ -8,3 +8,8 @@ spring:
   rabbitmq:
     username: trailblazer
     password: secret
+  jpa:
+    hibernate:
+      ddl-auto:
+  flyway:
+    enabled: true
