@@ -10,6 +10,6 @@ spring:
     password: secret
   jpa:
     hibernate:
-      ddl-auto:
+      ddl-auto: validate
   flyway:
     enabled: true
