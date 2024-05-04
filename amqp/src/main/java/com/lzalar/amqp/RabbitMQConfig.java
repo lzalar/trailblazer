@@ -1,4 +1,4 @@
-package com.lzalar.raceconsumer;
+package com.lzalar.amqp;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
