@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: raceproducer
+  rabbitmq:
+    username: trailblazer
+    password: secret
+    host: localhost
+    port: 5672
+
+rabbitmq:
+    queue:
+      name: "trailblazer-queue"
+    exchange:
+      name: "trailblazer-exchange"
+    routing:
+      key: "routing_key"
