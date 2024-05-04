@@ -1,5 +1,6 @@
 package com.lzalar.raceconsumer.service;
 
+import com.lzalar.clients.CreateRaceCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MessageConsumer {
 
     @RabbitHandler
-    public void consume(@Payload String message) {
+    public void consume(CreateRaceCommand message) {
         log.info("Received message from queue -> {}", message);
     }
 }

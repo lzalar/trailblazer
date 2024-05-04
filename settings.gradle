@@ -1,2 +1,4 @@
 rootProject.name = 'trailblazer'
-include ':clients'
+include 'clients'
+include 'raceproducer'
+include 'raceconsumer'
