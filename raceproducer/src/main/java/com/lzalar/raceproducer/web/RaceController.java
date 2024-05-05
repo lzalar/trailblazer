@@ -1,6 +1,6 @@
 package com.lzalar.raceproducer.web;
 
-import com.lzalar.clients.CreateRaceCommand;
+import com.lzalar.clients.race.CreateRace;
 import com.lzalar.raceproducer.producer.MessageProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class RaceController {
 
     @GetMapping("/publish")
     public ResponseEntity<String> sendMessage(@RequestParam("message") String message){
-        messageProducer.sendMessage(new CreateRaceCommand("bla1","bla2", "bla3"));
+        messageProducer.sendMessage(new CreateRace("bla1","bla2", "bla3"));
         return ResponseEntity.ok("Message sent to RabbitMQ");
     }
 }
