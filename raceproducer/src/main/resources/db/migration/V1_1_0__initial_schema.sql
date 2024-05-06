@@ -24,4 +24,6 @@ create table race_application
     race_id    uuid references race(id)
 );
 
+create index idx_race_application_race_id on race_application (race_id);
+
 
