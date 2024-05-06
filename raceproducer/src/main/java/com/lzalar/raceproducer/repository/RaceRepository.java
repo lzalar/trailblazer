@@ -1,6 +1,6 @@
-package com.lzalar.trailblazer.repository;
+package com.lzalar.raceproducer.repository;
 
-import com.lzalar.trailblazer.domain.race.Race;
+import com.lzalar.raceproducer.domain.race.Race;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

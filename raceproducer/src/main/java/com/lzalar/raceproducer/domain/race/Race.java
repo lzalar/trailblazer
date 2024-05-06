@@ -1,6 +1,5 @@
-package com.lzalar.trailblazer.domain.race;
+package com.lzalar.raceproducer.domain.race;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

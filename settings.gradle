@@ -1,6 +1,5 @@
 rootProject.name = 'trailblazer'
 include 'clients'
+include 'amqp'
 include 'raceproducer'
 include 'raceconsumer'
-include 'amqp'
-

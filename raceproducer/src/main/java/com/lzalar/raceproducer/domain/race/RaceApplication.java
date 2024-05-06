@@ -1,4 +1,4 @@
-package com.lzalar.trailblazer.domain.race;
+package com.lzalar.raceproducer.domain.race;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

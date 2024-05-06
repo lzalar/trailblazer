@@ -1,6 +1,6 @@
-package com.lzalar.trailblazer.service;
+package com.lzalar.raceproducer.service;
 
-import com.lzalar.trailblazer.repository.RaceRepository;
+import com.lzalar.raceproducer.repository.RaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

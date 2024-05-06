@@ -1,4 +1,4 @@
-package com.lzalar.trailblazer.repository;
+package com.lzalar.raceproducer.repository;
 
 import com.lzalar.trailblazer.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
