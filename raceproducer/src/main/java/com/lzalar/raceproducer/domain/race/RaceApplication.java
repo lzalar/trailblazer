@@ -25,7 +25,7 @@ public class RaceApplication {
     private String lastName;
     @Column(name = "club")
     private String club;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "race_id", referencedColumnName = "id")
     private Race race;
 }

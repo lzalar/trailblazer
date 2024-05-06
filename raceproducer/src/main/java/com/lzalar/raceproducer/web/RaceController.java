@@ -1,8 +1,6 @@
 package com.lzalar.raceproducer.web;
 
-import com.lzalar.clients.race.CreateRace;
 import com.lzalar.raceproducer.domain.race.Race;
-import com.lzalar.raceproducer.producer.MessageProducer;
 import com.lzalar.raceproducer.service.RaceService;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,20 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(("/api/v1"))
+@RequestMapping(("/api/v1/race"))
 @RequiredArgsConstructor
 public class RaceController {
 
     private final RaceService raceService;
-    private final MessageProducer messageProducer;
-
-
-    @GetMapping("/publish")
-    public ResponseEntity<String> sendMessage(@RequestParam("message") String message) {
-        messageProducer.sendMessage(new CreateRace("bla1", "bla2", "bla3"));
-        return ResponseEntity.ok("Message sent to RabbitMQ");
-    }
-
 
     @GetMapping
     public List<Race> getAllRaces() { // todo implement me

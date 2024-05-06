@@ -1,6 +1,6 @@
 package com.lzalar.raceproducer.producer;
 
-import com.lzalar.clients.race.CreateRace;
+import com.lzalar.clients.events.race.CreateRace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,7 +20,7 @@ public class MessageProducer {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(CreateRace message) {
+    public void sendMessage(Object message) {
         rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
         log.info("Message sent -> {}", message);
     }

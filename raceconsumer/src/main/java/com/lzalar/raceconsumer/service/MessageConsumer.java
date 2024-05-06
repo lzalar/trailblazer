@@ -1,6 +1,6 @@
 package com.lzalar.raceconsumer.service;
 
-import com.lzalar.clients.race.CreateRace;
+import com.lzalar.clients.events.race.CreateRace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
