@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(("/api/v1"))
@@ -21,38 +22,36 @@ public class RaceController {
 
 
     @GetMapping("/publish")
-    public ResponseEntity<String> sendMessage(@RequestParam("message") String message){
-        messageProducer.sendMessage(new CreateRace("bla1","bla2", "bla3"));
+    public ResponseEntity<String> sendMessage(@RequestParam("message") String message) {
+        messageProducer.sendMessage(new CreateRace("bla1", "bla2", "bla3"));
         return ResponseEntity.ok("Message sent to RabbitMQ");
     }
 
 
-
     @GetMapping
-    public List<Race> getAllRaces(){ // todo implement me
+    public List<Race> getAllRaces() { // todo implement me
         return List.of();
     }
 
     @GetMapping("/{raceId}")
-    public List<Race> getSingleRace(@PathVariable String raceId){ // todo implement me
+    public List<Race> getSingleRace(@PathVariable String raceId) { // todo implement me
         System.out.println(raceId);
         return List.of();
     }
 
     @PostMapping
-    public List<Race> createRace(@RequestBody RaceDTO raceDTO){ // todo implement me
-        System.out.println(raceDTO);
-        return List.of();
+    public UUID createRace(@RequestBody RaceDTO raceDTO) {
+        return raceService.createRace(raceDTO);
     }
+
     @PutMapping("/{raceId}")
-    public List<Race> editRace(@PathVariable String raceId){ // todo implement me
-        System.out.println(raceId);
-        return List.of();
+    public void editRace(@PathVariable UUID raceId, @RequestBody RaceDTO raceDTO) {
+        raceService.updateRace(raceId, raceDTO);
     }
 
     @DeleteMapping("/{raceId}")
-    public List<Race> deleteRace(@PathVariable String raceId){ // todo implement me
-        System.out.println(raceId);
-        return List.of();
+    public ResponseEntity<Void> deleteRace(@PathVariable UUID raceId) {
+        raceService.deleteRace(raceId);
+        return ResponseEntity.noContent().build();
     }
 }
