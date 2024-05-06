@@ -17,16 +17,6 @@ public class RaceController {
 
     private final RaceService raceService;
 
-    @GetMapping
-    public List<Race> getAllRaces() { // todo implement me
-        return List.of();
-    }
-
-    @GetMapping("/{raceId}")
-    public List<Race> getSingleRace(@PathVariable String raceId) { // todo implement me
-        System.out.println(raceId);
-        return List.of();
-    }
 
     @PostMapping
     public UUID createRace(@RequestBody RaceDTO raceDTO) {
