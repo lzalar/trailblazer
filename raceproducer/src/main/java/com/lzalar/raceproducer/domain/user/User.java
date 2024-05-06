@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static jakarta.persistence.EnumType.*;
 
@@ -18,7 +19,9 @@ import static jakarta.persistence.EnumType.*;
 public class User {
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    private UUID id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")

@@ -15,6 +15,7 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+    default-schema: public
 
 rabbitmq:
     queue:
