@@ -1,6 +1,7 @@
 package com.lzalar.raceproducer.domain.user;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import static jakarta.persistence.EnumType.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
     @Id
     private Long id;
     @Column(name = "first_name")
@@ -28,5 +30,4 @@ public class User {
     @Enumerated(STRING)
     @Column(name = "role")
     private Role role;
-
 }
