@@ -1,51 +1,63 @@
 package com.lzalar.raceconsumer.service;
 
-import com.lzalar.clients.events.race.CreateRace;
-import com.lzalar.clients.events.race.DeleteRace;
-import com.lzalar.clients.events.race.EditRace;
-import com.lzalar.clients.events.race.application.CreateRaceApplication;
-import com.lzalar.clients.events.race.application.DeleteRaceApplication;
-import com.lzalar.raceconsumer.domain.RaceApplicationPerUserProjection;
+import com.lzalar.clients.events.race.ApplicationEvent;
+import com.lzalar.clients.events.race.CreateRaceEvent;
+import com.lzalar.clients.events.race.DeleteRaceEvent;
+import com.lzalar.clients.events.race.EditRaceEvent;
+import com.lzalar.clients.events.race.application.CreateRaceApplicationEvent;
+import com.lzalar.clients.events.race.application.DeleteRaceApplicationEvent;
 import com.lzalar.raceconsumer.domain.RaceApplicationBasic;
+import com.lzalar.raceconsumer.domain.RaceApplicationPerUserProjection;
 import com.lzalar.raceconsumer.domain.RaceViewProjection;
 import com.lzalar.raceconsumer.repository.RaceApplicationPerUserRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
+import com.lzalar.raceconsumer.service.projector.Projector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 @RabbitListener(queues = {"${rabbitmq.queue.name}"})
-public class MessageConsumer {
+public class EventListener {
 
     private final RaceViewRepository raceViewRepository;
+    private final RaceA
     private final RaceApplicationPerUserRepository raceApplicationPerUserRepository;
+    private final List<Projector> projectors;
 
     @RabbitHandler
-    public void consume(CreateRace message) {
+    public void consume(ApplicationEvent message) {
         log.info("Received message from queue -> {}", message);
-        raceViewRepository.save(new RaceViewProjection(message.uuid(),message.name(),message.distance()));
+
+        if (message instanceof CreateRaceEvent createRaceEventMessage){
+            log.info("Received message from queue -> {}", createRaceEventMessage);
+            raceViewRepository.save(new RaceViewProjection(createRaceEventMessage.getRaceId(), createRaceEventMessage.getName(), createRaceEventMessage.getDistance()));
+        } else {
+            log.info("didn't manage to do anything");
+        }
+
+
     }
 
     @RabbitHandler
-    public void consume(EditRace message) {
+    public void consume(EditRaceEvent message) {
         log.info("Received message from queue -> {}", message);
     }
 
     @RabbitHandler
-    public void consume(DeleteRace message) {
+    public void consume(DeleteRaceEvent message) {
         log.info("Received message from queue -> {}", message);
     }
 
     @RabbitHandler
-    public void consume(CreateRaceApplication message) {
+    public void consume(CreateRaceApplicationEvent message) {
         log.info("Received message from queue -> {}", message);
 
 
@@ -80,7 +92,7 @@ public class MessageConsumer {
     }
 
     @RabbitHandler
-    public void consume(DeleteRaceApplication message) {
+    public void consume(DeleteRaceApplicationEvent message) {
         log.info("Received message from queue -> {}", message);
     }
 }

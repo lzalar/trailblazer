@@ -1,10 +1,10 @@
 package com.lzalar.raceproducer.service;
 
-import com.lzalar.clients.events.race.CreateRace;
-import com.lzalar.clients.events.race.DeleteRace;
-import com.lzalar.clients.events.race.EditRace;
-import com.lzalar.clients.events.race.application.CreateRaceApplication;
-import com.lzalar.clients.events.race.application.DeleteRaceApplication;
+import com.lzalar.clients.events.race.CreateRaceEvent;
+import com.lzalar.clients.events.race.DeleteRaceEvent;
+import com.lzalar.clients.events.race.EditRaceEvent;
+import com.lzalar.clients.events.race.application.CreateRaceApplicationEvent;
+import com.lzalar.clients.events.race.application.DeleteRaceApplicationEvent;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.producer.MessageProducer;
@@ -36,7 +36,7 @@ public class RaceService {
         race.setId(null); // throw replace with validation
 
         race = raceRepository.save(race);
-        messageProducer.sendMessage(new CreateRace(race.getId(), race.getName(), race.getDistance().name()));
+        messageProducer.sendMessage(new CreateRaceEvent(race.getId(), race.getName(), race.getDistance().name()));
         return race.getId();
     }
 
@@ -51,7 +51,7 @@ public class RaceService {
 
         raceRepository.save(race);
 
-        messageProducer.sendMessage(new EditRace(race.getId(), race.getName(), race.getDistance().name()));
+        messageProducer.sendMessage(new EditRaceEvent(race.getId(), race.getName(), race.getDistance().name()));
     }
 
     public void deleteRace(UUID raceId) {
@@ -63,13 +63,13 @@ public class RaceService {
         raceApplicationRepository.deleteRaceApplicationByRace(raceOptional.get());
         raceRepository.deleteById(raceId);
 
-        messageProducer.sendMessage(new DeleteRace(raceId));
+        messageProducer.sendMessage(new DeleteRaceEvent(raceId));
     }
 
     public void applyToRace(UUID raceId, RaceApplication raceApplication) {
         raceApplication.setUser(userRepository.findAll().get(0));
         raceApplication = raceApplicationRepository.save(raceApplication);
-        messageProducer.sendMessage(new CreateRaceApplication(raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, raceApplication.getUser().getId()));
+        messageProducer.sendMessage(new CreateRaceApplicationEvent(raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, raceApplication.getUser().getId()));
     }
 
     public void deleteRaceApplication(UUID raceApplicationId) {
@@ -79,6 +79,6 @@ public class RaceService {
         }
 
         raceApplicationRepository.deleteById(raceApplicationId);
-        messageProducer.sendMessage(new DeleteRaceApplication(raceApplicationId));
+        messageProducer.sendMessage(new DeleteRaceApplicationEvent(raceApplicationId));
     }
 }

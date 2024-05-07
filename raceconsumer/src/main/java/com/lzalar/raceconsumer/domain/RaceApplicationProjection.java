@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@Table(name = "applied_races_per_user_projection")
+@Table(name = "applied_races_projection")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

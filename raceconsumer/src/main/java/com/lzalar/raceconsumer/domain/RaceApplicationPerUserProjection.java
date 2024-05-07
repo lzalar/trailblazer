@@ -25,9 +25,9 @@ public class RaceApplicationPerUserProjection {
     @Id
     @Column(name = "id", nullable = false)
     private UUID userId;
-    @Column(name = "id", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(name = "id", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(name = "race_applications")
     @JdbcTypeCode(SqlTypes.JSON)
