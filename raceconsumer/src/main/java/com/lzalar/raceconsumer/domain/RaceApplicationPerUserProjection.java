@@ -21,10 +21,14 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaceApplicationPerUser {
+public class RaceApplicationPerUserProjection {
     @Id
     @Column(name = "id", nullable = false)
     private UUID userId;
+    @Column(name = "id", nullable = false)
+    private String firstName;
+    @Column(name = "id", nullable = false)
+    private String lastName;
     @Column(name = "race_applications")
     @JdbcTypeCode(SqlTypes.JSON)
     private List<RaceApplicationBasic> raceApplications;

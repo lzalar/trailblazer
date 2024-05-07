@@ -5,9 +5,9 @@ import com.lzalar.clients.events.race.DeleteRace;
 import com.lzalar.clients.events.race.EditRace;
 import com.lzalar.clients.events.race.application.CreateRaceApplication;
 import com.lzalar.clients.events.race.application.DeleteRaceApplication;
-import com.lzalar.raceconsumer.domain.RaceApplicationPerUser;
+import com.lzalar.raceconsumer.domain.RaceApplicationPerUserProjection;
 import com.lzalar.raceconsumer.domain.RaceApplicationBasic;
-import com.lzalar.raceconsumer.domain.RaceView;
+import com.lzalar.raceconsumer.domain.RaceViewProjection;
 import com.lzalar.raceconsumer.repository.RaceApplicationPerUserRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class MessageConsumer {
     @RabbitHandler
     public void consume(CreateRace message) {
         log.info("Received message from queue -> {}", message);
-        raceViewRepository.save(new RaceView(message.uuid(),message.name(),message.distance()));
+        raceViewRepository.save(new RaceViewProjection(message.uuid(),message.name(),message.distance()));
     }
 
     @RabbitHandler
@@ -50,10 +50,10 @@ public class MessageConsumer {
 
 
 
-        Optional<RaceApplicationPerUser> appliedRacesPerUserOptional = raceApplicationPerUserRepository.findById(message.userId());
+        Optional<RaceApplicationPerUserProjection> appliedRacesPerUserOptional = raceApplicationPerUserRepository.findById(message.userId());
 
         if (appliedRacesPerUserOptional.isEmpty()){
-            raceApplicationPerUserRepository.save(RaceApplicationPerUser.builder()
+            raceApplicationPerUserRepository.save(RaceApplicationPerUserProjection.builder()
                             .userId(message.userId())
                             .raceApplications(List.of(
                                     new RaceApplicationBasic(

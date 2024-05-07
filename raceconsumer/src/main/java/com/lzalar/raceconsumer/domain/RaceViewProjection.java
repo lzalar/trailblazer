@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaceView {
+public class RaceViewProjection {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;

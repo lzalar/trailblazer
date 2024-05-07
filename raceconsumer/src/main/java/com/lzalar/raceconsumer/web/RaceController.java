@@ -1,6 +1,6 @@
 package com.lzalar.raceconsumer.web;
 
-import com.lzalar.raceconsumer.domain.RaceView;
+import com.lzalar.raceconsumer.domain.RaceViewProjection;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +19,12 @@ public class RaceController {
     private final RaceViewRepository raceViewRepository;
 
     @GetMapping
-    public List<RaceView> getAllRaces() {
+    public List<RaceViewProjection> getAllRaces() {
         return raceViewRepository.findAll();
     }
 
     @GetMapping("/{raceId}")
-    public RaceView getSingleRace(@PathVariable UUID raceId) { // todo implement me
+    public RaceViewProjection getSingleRace(@PathVariable UUID raceId) { // todo implement me
         return raceViewRepository.findById(raceId).get();
     }
 }
