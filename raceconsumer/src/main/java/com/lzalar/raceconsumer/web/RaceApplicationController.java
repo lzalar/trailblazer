@@ -1,9 +1,7 @@
 package com.lzalar.raceconsumer.web;
 
-import com.lzalar.raceconsumer.domain.AppliedRacesPerUser;
-import com.lzalar.raceconsumer.domain.RaceView;
-import com.lzalar.raceconsumer.repository.AppliedRacePerUserRepository;
-import com.lzalar.raceconsumer.repository.RaceViewRepository;
+import com.lzalar.raceconsumer.domain.RaceApplicationPerUser;
+import com.lzalar.raceconsumer.repository.RaceApplicationPerUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +16,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RaceApplicationController {
 
-    private final AppliedRacePerUserRepository appliedRacePerUserRepository;
+    private final RaceApplicationPerUserRepository raceApplicationPerUserRepository;
 
     @GetMapping("/all/{userId}") // todo change
-    public List<AppliedRacesPerUser> getAllRaceApplicationsForUser(@PathVariable UUID userId) {
-        return appliedRacePerUserRepository.findAll();
+    public List<RaceApplicationPerUser> getAllRaceApplicationsForUser(@PathVariable UUID userId) {
+        return raceApplicationPerUserRepository.findAll();
     }
 
     @GetMapping("{raceApplicationId}")

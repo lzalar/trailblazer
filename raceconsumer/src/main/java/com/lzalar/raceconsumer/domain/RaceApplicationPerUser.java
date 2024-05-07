@@ -21,7 +21,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppliedRacesPerUser {
+public class RaceApplicationPerUser {
     @Id
     @Column(name = "id", nullable = false)
     private UUID userId;

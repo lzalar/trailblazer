@@ -5,10 +5,10 @@ import com.lzalar.clients.events.race.DeleteRace;
 import com.lzalar.clients.events.race.EditRace;
 import com.lzalar.clients.events.race.application.CreateRaceApplication;
 import com.lzalar.clients.events.race.application.DeleteRaceApplication;
-import com.lzalar.raceconsumer.domain.AppliedRacesPerUser;
+import com.lzalar.raceconsumer.domain.RaceApplicationPerUser;
 import com.lzalar.raceconsumer.domain.RaceApplicationBasic;
 import com.lzalar.raceconsumer.domain.RaceView;
-import com.lzalar.raceconsumer.repository.AppliedRacePerUserRepository;
+import com.lzalar.raceconsumer.repository.RaceApplicationPerUserRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.Optional;
 public class MessageConsumer {
 
     private final RaceViewRepository raceViewRepository;
-    private final AppliedRacePerUserRepository appliedRacePerUserRepository;
+    private final RaceApplicationPerUserRepository raceApplicationPerUserRepository;
 
     @RabbitHandler
     public void consume(CreateRace message) {
@@ -50,10 +50,10 @@ public class MessageConsumer {
 
 
 
-        Optional<AppliedRacesPerUser> appliedRacesPerUserOptional = appliedRacePerUserRepository.findById(message.userId());
+        Optional<RaceApplicationPerUser> appliedRacesPerUserOptional = raceApplicationPerUserRepository.findById(message.userId());
 
         if (appliedRacesPerUserOptional.isEmpty()){
-            appliedRacePerUserRepository.save(AppliedRacesPerUser.builder()
+            raceApplicationPerUserRepository.save(RaceApplicationPerUser.builder()
                             .userId(message.userId())
                             .raceApplications(List.of(
                                     new RaceApplicationBasic(
@@ -75,7 +75,7 @@ public class MessageConsumer {
                             null,
                             null
                     ));
-            appliedRacePerUserRepository.save(appliedRacesPerUserOptional.get());
+            raceApplicationPerUserRepository.save(appliedRacesPerUserOptional.get());
         }
     }
 

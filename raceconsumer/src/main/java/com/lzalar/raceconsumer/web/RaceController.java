@@ -1,8 +1,6 @@
 package com.lzalar.raceconsumer.web;
 
-import com.lzalar.raceconsumer.domain.AppliedRacesPerUser;
 import com.lzalar.raceconsumer.domain.RaceView;
-import com.lzalar.raceconsumer.repository.AppliedRacePerUserRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
