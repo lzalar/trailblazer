@@ -5,13 +5,19 @@ import com.lzalar.clients.events.race.DeleteRace;
 import com.lzalar.clients.events.race.EditRace;
 import com.lzalar.clients.events.race.application.CreateRaceApplication;
 import com.lzalar.clients.events.race.application.DeleteRaceApplication;
+import com.lzalar.raceconsumer.domain.AppliedRacesPerUser;
+import com.lzalar.raceconsumer.domain.RaceApplicationBasic;
 import com.lzalar.raceconsumer.domain.RaceView;
+import com.lzalar.raceconsumer.repository.AppliedRacePerUserRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -20,6 +26,7 @@ import org.springframework.stereotype.Service;
 public class MessageConsumer {
 
     private final RaceViewRepository raceViewRepository;
+    private final AppliedRacePerUserRepository appliedRacePerUserRepository;
 
     @RabbitHandler
     public void consume(CreateRace message) {
@@ -40,6 +47,36 @@ public class MessageConsumer {
     @RabbitHandler
     public void consume(CreateRaceApplication message) {
         log.info("Received message from queue -> {}", message);
+
+
+
+        Optional<AppliedRacesPerUser> appliedRacesPerUserOptional = appliedRacePerUserRepository.findById(message.userId());
+
+        if (appliedRacesPerUserOptional.isEmpty()){
+            appliedRacePerUserRepository.save(AppliedRacesPerUser.builder()
+                            .userId(message.userId())
+                            .raceApplications(List.of(
+                                    new RaceApplicationBasic(
+                                            message.id(),
+                                            message.club(),
+                                            message.raceId(),
+                                            null,
+                                            null
+                                    )
+                            ))
+                    .build());
+        } else {
+            appliedRacesPerUserOptional.get()
+                    .getRaceApplications()
+                    .add(new RaceApplicationBasic(
+                            message.id(),
+                            message.club(),
+                            message.raceId(),
+                            null,
+                            null
+                    ));
+            appliedRacePerUserRepository.save(appliedRacesPerUserOptional.get());
+        }
     }
 
     @RabbitHandler

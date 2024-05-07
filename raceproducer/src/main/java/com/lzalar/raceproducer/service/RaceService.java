@@ -10,6 +10,7 @@ import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.producer.MessageProducer;
 import com.lzalar.raceproducer.repository.RaceApplicationRepository;
 import com.lzalar.raceproducer.repository.RaceRepository;
+import com.lzalar.raceproducer.repository.UserRepository;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class RaceService {
 
     private final RaceRepository raceRepository;
+    private final UserRepository userRepository;
     private final RaceApplicationRepository raceApplicationRepository;
     private final RaceMapper raceMapper;
     private final MessageProducer messageProducer;
@@ -63,8 +65,9 @@ public class RaceService {
     }
 
     public void applyToRace(UUID raceId, RaceApplication raceApplication) {
+        raceApplication.setUser(userRepository.findAll().get(0));
         raceApplication = raceApplicationRepository.save(raceApplication);
-        messageProducer.sendMessage(new CreateRaceApplication(raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId));
+        messageProducer.sendMessage(new CreateRaceApplication(raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, raceApplication.getUser().getId()));
     }
 
     public void deleteRaceApplication(UUID raceApplicationId) {

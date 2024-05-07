@@ -14,20 +14,21 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/race")
+@RequestMapping("/api/v1/race-application")
 @RequiredArgsConstructor
-public class RaceController {
+public class RaceApplicationController {
 
-    private final RaceViewRepository raceViewRepository;
+    private final AppliedRacePerUserRepository appliedRacePerUserRepository;
 
-    @GetMapping
-    public List<RaceView> getAllRaces() {
-        return raceViewRepository.findAll();
+    @GetMapping("/all/{userId}") // todo change
+    public List<AppliedRacesPerUser> getAllRaceApplicationsForUser(@PathVariable UUID userId) {
+        return appliedRacePerUserRepository.findAll();
     }
 
-    @GetMapping("/{raceId}")
-    public RaceView getSingleRace(@PathVariable UUID raceId) { // todo implement me
-        return raceViewRepository.findById(raceId).get();
+    @GetMapping("{raceApplicationId}")
+    public void getRaceApplication(@PathVariable String raceApplicationId) { // todo implement me
+
     }
+
 }
 

@@ -2,6 +2,7 @@ package com.lzalar.raceproducer.service;
 
 import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.repository.RaceRepository;
+import com.lzalar.raceproducer.repository.UserRepository;
 import com.lzalar.raceproducer.web.dto.RaceApplicationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class RaceApplicationMapper {
 
     private final RaceRepository raceRepository;
+    private final UserRepository userRepository;
 
 
     public RaceApplication mapFromDto(RaceApplicationDTO raceApplicationDTO){
@@ -19,7 +21,8 @@ public class RaceApplicationMapper {
                 raceApplicationDTO.firstName(),
                 raceApplicationDTO.lastName(),
                 raceApplicationDTO.club(),
-                raceRepository.getReferenceById(raceApplicationDTO.raceId())
+                raceRepository.getReferenceById(raceApplicationDTO.raceId()),
+                userRepository.getReferenceById(raceApplicationDTO.userId())
         );
     }
 
@@ -29,7 +32,8 @@ public class RaceApplicationMapper {
                 raceApplication.getFirstName(),
                 raceApplication.getLastName(),
                 raceApplication.getClub(),
-                raceApplication.getRace().getId()
+                raceApplication.getRace().getId(),
+                raceApplication.getUser().getId()
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.lzalar.raceproducer.domain.race;
 
+import com.lzalar.raceproducer.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +29,7 @@ public class RaceApplication {
     @ManyToOne
     @JoinColumn(name = "race_id", referencedColumnName = "id")
     private Race race;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

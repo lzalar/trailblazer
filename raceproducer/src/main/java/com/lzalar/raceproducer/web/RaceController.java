@@ -1,13 +1,11 @@
 package com.lzalar.raceproducer.web;
 
-import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.service.RaceService;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,7 +14,6 @@ import java.util.UUID;
 public class RaceController {
 
     private final RaceService raceService;
-
 
     @PostMapping
     public UUID createRace(@RequestBody RaceDTO raceDTO) {
