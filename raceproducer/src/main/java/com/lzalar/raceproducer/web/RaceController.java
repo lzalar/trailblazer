@@ -4,6 +4,9 @@ import com.lzalar.raceproducer.service.RaceService;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -16,7 +19,7 @@ public class RaceController {
     private final RaceService raceService;
 
     @PostMapping
-    public UUID createRace(@RequestBody RaceDTO raceDTO) {
+    public UUID createRace(@RequestBody RaceDTO raceDTO, JwtAuthenticationToken principal) {
         return raceService.createRace(raceDTO);
     }
 
@@ -26,8 +29,7 @@ public class RaceController {
     }
 
     @DeleteMapping("/{raceId}")
-    public ResponseEntity<Void> deleteRace(@PathVariable UUID raceId) {
+    public void deleteRace(@PathVariable UUID raceId) {
         raceService.deleteRace(raceId);
-        return ResponseEntity.noContent().build();
     }
 }

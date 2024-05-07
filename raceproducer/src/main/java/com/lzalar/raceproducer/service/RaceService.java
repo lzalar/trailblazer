@@ -14,12 +14,14 @@ import com.lzalar.raceproducer.repository.UserRepository;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class RaceService {
 
     private final RaceRepository raceRepository;
