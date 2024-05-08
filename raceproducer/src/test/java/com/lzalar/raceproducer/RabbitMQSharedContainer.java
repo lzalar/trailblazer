@@ -10,6 +10,10 @@ public class RabbitMQSharedContainer extends RabbitMQContainer {
     public static final String RABBITMQ_IMAGE = "rabbitmq:3.13.2-management";
     private static RabbitMQSharedContainer container;
 
+    public RabbitMQSharedContainer(){
+        super(RABBITMQ_IMAGE);
+    }
+
     public static RabbitMQSharedContainer getInstance() {
         if (container == null) {
             container = new RabbitMQSharedContainer();
