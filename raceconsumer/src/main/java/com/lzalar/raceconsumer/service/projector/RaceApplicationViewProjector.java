@@ -1,20 +1,15 @@
 package com.lzalar.raceconsumer.service.projector;
 
 import com.lzalar.clients.events.race.ApplicationEvent;
-import com.lzalar.clients.events.race.CreateRaceEvent;
 import com.lzalar.clients.events.race.DeleteRaceEvent;
 import com.lzalar.clients.events.race.EditRaceEvent;
 import com.lzalar.clients.events.race.application.CreateRaceApplicationEvent;
 import com.lzalar.clients.events.race.application.DeleteRaceApplicationEvent;
-import com.lzalar.raceconsumer.domain.RaceApplicationProjection;
-import com.lzalar.raceconsumer.domain.RaceViewProjection;
+import com.lzalar.raceconsumer.domain.RaceApplicationViewProjection;
 import com.lzalar.raceconsumer.repository.RaceApplicationViewRepository;
-import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -35,7 +30,7 @@ public class RaceApplicationViewProjector implements Projector {
     }
 
     private void handleCreateRaceApplicationEvent(CreateRaceApplicationEvent createRaceApplicationEvent) {
-        raceApplicationViewRepository.save(new RaceApplicationProjection(createRaceApplicationEvent.getId(),
+        raceApplicationViewRepository.save(new RaceApplicationViewProjection(createRaceApplicationEvent.getId(),
                 createRaceApplicationEvent.getFirstName(),
                 createRaceApplicationEvent.getLastName(),
                 createRaceApplicationEvent.getClub(),

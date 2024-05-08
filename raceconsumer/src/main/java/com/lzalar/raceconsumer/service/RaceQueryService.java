@@ -1,7 +1,7 @@
 package com.lzalar.raceconsumer.service;
 
-import com.lzalar.raceconsumer.domain.RaceApplicationPerUserDTO;
-import com.lzalar.raceconsumer.domain.RaceApplicationProjection;
+import com.lzalar.raceconsumer.web.dto.RaceApplicationPerUserDTO;
+import com.lzalar.raceconsumer.domain.RaceApplicationViewProjection;
 import com.lzalar.raceconsumer.domain.RaceViewProjection;
 import com.lzalar.raceconsumer.repository.RaceApplicationViewRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
@@ -21,7 +21,7 @@ public class RaceQueryService {
     private final RaceViewRepository raceViewRepository;
 
 
-    public RaceApplicationProjection getRaceApplication(UUID raceApplicationId) {
+    public RaceApplicationViewProjection getRaceApplication(UUID raceApplicationId) {
         return raceApplicationViewRepository.findById(raceApplicationId).get();
     }
 

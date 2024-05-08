@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaceApplicationProjection {
+public class RaceApplicationViewProjection {
 
     @Id
     @Column(name = "id", nullable = false)

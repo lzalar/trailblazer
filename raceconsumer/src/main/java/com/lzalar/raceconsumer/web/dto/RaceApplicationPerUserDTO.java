@@ -1,6 +1,7 @@
-package com.lzalar.raceconsumer.domain;
+package com.lzalar.raceconsumer.web.dto;
 
 
+import com.lzalar.raceconsumer.domain.RaceApplicationViewProjection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,5 +12,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RaceApplicationPerUserDTO {
     private UUID userId;
-    private List<RaceApplicationProjection> raceApplications;
+    private List<RaceApplicationViewProjection> raceApplications;
 }
