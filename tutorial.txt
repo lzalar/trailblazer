@@ -1,0 +1,42 @@
+to run the tests for the trailblazer_producer and trailblazer_consumer
+run the following commands
+
+./gradlew :raceproducer:clean :raceproducer:test
+
+./gradlew :raceconsumer:clean :raceconsumer:test
+
+there are 2 users configured in keycloak:
+
+             username: admin
+             pass:    12345
+             roles: applicant, administrator
+
+             user: ivan
+             pass: 123
+             roles: applicant
+
+the easiest way to test the API is via Postman using the Authorization Code with PKCE grand type
+
+keycloak info:
+    client_id=trailblazer-app
+    client_secret=tJc5LJv1Rngd5IFVtqASGGmrPgavAJyc
+    token_endpoint=http://localhost:8090/realms/trailblazer/protocol/openid-connect/token
+
+
+but you can also get it via curl:
+    -get access token for admin
+        curl  -d 'username=admin' \
+         -d 'password=12345' \
+         -d "client_id=trailblazer-app" \
+         -d "client_secret=tJc5LJv1Rngd5IFVtqASGGmrPgavAJyc" \
+         -d "grant_type=password" \
+         "http://localhost:8090/realms/trailblazer/protocol/openid-connect/token"
+
+    -get access token for user ivan
+        curl  -d 'username=ivan' \
+             -d 'password=123' \
+             -d "client_id=trailblazer-app" \
+             -d "client_secret=tJc5LJv1Rngd5IFVtqASGGmrPgavAJyc" \
+             -d "grant_type=password" \
+             "http://localhost:8090/realms/trailblazer/protocol/openid-connect/token"
+
