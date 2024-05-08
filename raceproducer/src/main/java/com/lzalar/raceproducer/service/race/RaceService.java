@@ -7,7 +7,7 @@ import com.lzalar.clients.events.race.application.CreateRaceApplicationEvent;
 import com.lzalar.clients.events.race.application.DeleteRaceApplicationEvent;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
-import com.lzalar.raceproducer.producer.MessageProducer;
+import com.lzalar.raceproducer.service.ampq.RabbitMessageService;
 import com.lzalar.raceproducer.repository.RaceApplicationRepository;
 import com.lzalar.raceproducer.repository.RaceRepository;
 import com.lzalar.raceproducer.service.auth.AuthenticationService;
@@ -28,7 +28,7 @@ public class RaceService {
     private final RaceRepository raceRepository;
     private final RaceApplicationRepository raceApplicationRepository;
     private final RaceMapper raceMapper;
-    private final MessageProducer messageProducer;
+    private final RabbitMessageService rabbitMessageService;
     private final AuthenticationService authenticationService;
 
 
@@ -38,7 +38,7 @@ public class RaceService {
         race.setId(null); // throw replace with validation
 
         race = raceRepository.save(race);
-        messageProducer.sendMessage(new CreateRaceEvent(UUID.randomUUID(), race.getId(), race.getName(), race.getDistance().name()));
+        rabbitMessageService.sendMessage(new CreateRaceEvent(UUID.randomUUID(), race.getId(), race.getName(), race.getDistance().name()));
         return race.getId();
     }
 
@@ -53,7 +53,7 @@ public class RaceService {
 
         raceRepository.save(race);
 
-        messageProducer.sendMessage(new EditRaceEvent(UUID.randomUUID(), race.getId(), race.getName(), race.getDistance().name()));
+        rabbitMessageService.sendMessage(new EditRaceEvent(UUID.randomUUID(), race.getId(), race.getName(), race.getDistance().name()));
     }
 
     public void deleteRace(UUID raceId) {
@@ -65,7 +65,7 @@ public class RaceService {
         raceApplicationRepository.deleteRaceApplicationByRace(raceOptional.get());
         raceRepository.deleteById(raceId);
 
-        messageProducer.sendMessage(new DeleteRaceEvent(UUID.randomUUID(),raceId));
+        rabbitMessageService.sendMessage(new DeleteRaceEvent(UUID.randomUUID(),raceId));
     }
 
     public void applyToRace(UUID raceId, RaceApplication raceApplication) {
@@ -73,7 +73,7 @@ public class RaceService {
         raceApplication.setUser(authenticationService.getCurrentUser());
         raceApplication = raceApplicationRepository.save(raceApplication);
 
-        messageProducer.sendMessage(new CreateRaceApplicationEvent(UUID.randomUUID(), raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, race.getName(), race.getDistance().name(), raceApplication.getUser().getId()));
+        rabbitMessageService.sendMessage(new CreateRaceApplicationEvent(UUID.randomUUID(), raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, race.getName(), race.getDistance().name(), raceApplication.getUser().getId()));
     }
 
     public void deleteRaceApplication(UUID raceApplicationId) {
@@ -83,6 +83,6 @@ public class RaceService {
         }
 
         raceApplicationRepository.deleteById(raceApplicationId);
-        messageProducer.sendMessage(new DeleteRaceApplicationEvent(UUID.randomUUID(), raceApplicationId));
+        rabbitMessageService.sendMessage(new DeleteRaceApplicationEvent(UUID.randomUUID(), raceApplicationId));
     }
 }
