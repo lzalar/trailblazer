@@ -2,9 +2,7 @@ package com.lzalar.raceproducer.web;
 
 import com.lzalar.raceproducer.BaseIntegrationTest;
 import com.lzalar.raceproducer.domain.race.Race;
-import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -13,7 +11,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.givenRaceApplication;
 import static com.lzalar.raceproducer.constants.RaceTestConstants.*;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 

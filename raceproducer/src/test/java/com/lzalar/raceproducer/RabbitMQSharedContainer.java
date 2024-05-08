@@ -24,10 +24,10 @@ public class RabbitMQSharedContainer extends RabbitMQContainer {
     @Override
     public void start() {
         super.start();
-        System.setProperty("spring.rabbitmq.host", rabbitMQContainer.getHost());
-        System.setProperty("spring.rabbitmq.port", rabbitMQContainer.getAmqpPort().toString());
-        System.setProperty("spring.rabbitmq.username", rabbitMQContainer.getAdminUsername());
-        System.setProperty("spring.rabbitmq.password", rabbitMQContainer.getAdminPassword());
+        System.setProperty("spring.rabbitmq.host", container.getHost());
+        System.setProperty("spring.rabbitmq.port", container.getAmqpPort().toString());
+        System.setProperty("spring.rabbitmq.username", container.getAdminUsername());
+        System.setProperty("spring.rabbitmq.password", container.getAdminPassword());
     }
 
     @Override
