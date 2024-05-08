@@ -1,8 +1,13 @@
 spring:
   application:
     name: raceconsumer
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8090/realms/trailblazer
   datasource:
-    url: jdbc:postgresql://localhost:5432/trailblazer
+    url: jdbc:postgresql://localhost:5433/trailblazer
     username: trailblazer
     password: secret
   rabbitmq:
@@ -19,7 +24,10 @@ spring:
     port: 5672
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    default-schema: public
 
 rabbitmq:
   queue:

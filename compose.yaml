@@ -1,5 +1,5 @@
 services:
-  postgres:
+  postgres_trailblazer_producer_db:
     image: 'postgres:16.2'
     environment:
       - 'POSTGRES_DB=trailblazer'
@@ -7,6 +7,14 @@ services:
       - 'POSTGRES_USER=trailblazer'
     ports:
       - '5432:5432'
+  postgres_trailblazer_consumer_db:
+    image: 'postgres:16.2'
+    environment:
+      - 'POSTGRES_DB=trailblazer'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=trailblazer'
+    ports:
+      - '5433:5432'
   rabbitmq:
     image: 'rabbitmq:3.13.2-management'
     environment:
