@@ -72,7 +72,7 @@ class RaceQueryServiceTest {
         RaceApplicationPerUserDTO result = raceQueryService.getAllRaceApplicationsForUser(userId);
 
         assertThat(result.getRaceApplications()).hasSize(1);
-        assertThat(result.getRaceApplications().get(0)).isEqualTo(raceApplicationView);
+        assertThat(result.getRaceApplications().getFirst()).isEqualTo(raceApplicationView);
     }
 
     @Test

@@ -3,11 +3,9 @@ package com.lzalar.raceconsumer.service.projector;
 import com.lzalar.clients.events.race.CreateRaceEvent;
 import com.lzalar.clients.events.race.DeleteRaceEvent;
 import com.lzalar.clients.events.race.EditRaceEvent;
-import com.lzalar.clients.events.raceapplication.CreateRaceApplicationEvent;
 import com.lzalar.raceconsumer.BaseIntegrationTest;
 import com.lzalar.raceconsumer.constants.RaceViewTestContants;
 import com.lzalar.raceconsumer.domain.RaceView;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 @ExtendWith(MockitoExtension.class)
