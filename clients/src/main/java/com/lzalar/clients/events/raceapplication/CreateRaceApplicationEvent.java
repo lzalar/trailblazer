@@ -1,6 +1,6 @@
-package com.lzalar.clients.events.race.application;
+package com.lzalar.clients.events.raceapplication;
 
-import com.lzalar.clients.events.race.ApplicationEvent;
+import com.lzalar.clients.events.ApplicationEvent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;

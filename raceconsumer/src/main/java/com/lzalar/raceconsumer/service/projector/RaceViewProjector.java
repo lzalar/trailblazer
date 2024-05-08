@@ -1,6 +1,6 @@
 package com.lzalar.raceconsumer.service.projector;
 
-import com.lzalar.clients.events.race.ApplicationEvent;
+import com.lzalar.clients.events.ApplicationEvent;
 import com.lzalar.clients.events.race.CreateRaceEvent;
 import com.lzalar.clients.events.race.EditRaceEvent;
 import com.lzalar.raceconsumer.domain.RaceViewProjection;

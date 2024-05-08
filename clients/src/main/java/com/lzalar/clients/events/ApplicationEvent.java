@@ -1,4 +1,4 @@
-package com.lzalar.clients.events.race;
+package com.lzalar.clients.events;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

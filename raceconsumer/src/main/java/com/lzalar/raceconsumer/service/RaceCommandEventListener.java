@@ -1,6 +1,6 @@
 package com.lzalar.raceconsumer.service;
 
-import com.lzalar.clients.events.race.ApplicationEvent;
+import com.lzalar.clients.events.ApplicationEvent;
 import com.lzalar.raceconsumer.service.projector.Projector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
