@@ -2,6 +2,7 @@ package com.lzalar.raceproducer.web;
 
 import com.lzalar.raceproducer.BaseIntegrationTest;
 import com.lzalar.raceproducer.domain.race.Race;
+import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.givenRaceApplication;
 import static com.lzalar.raceproducer.constants.RaceTestConstants.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -56,7 +59,7 @@ public class RaceControllerIntegrationTest extends BaseIntegrationTest {
 
         verifyQueueIsEmpty();
 
-        Assertions.assertThat(persistedRace).isNotEqualTo(expected);
+        assertThat(persistedRace).isNotEqualTo(expected);
 
         mockMvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + persistedRace.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -78,10 +81,31 @@ public class RaceControllerIntegrationTest extends BaseIntegrationTest {
 
         verifyQueueIsEmpty();
 
+        assertThat(raceRepository.findAll().size()).isOne();
+
         mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + persistedRace.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         assertThat(raceRepository.findAll().size()).isZero();
+
+        verifyMessageInQueue();
+    }
+
+    @Test
+    @WithMockUser(roles = "administrator")
+    public void givenRaceApplicationsExistOnRace_deleteRace_deleteRaceApplications() throws Exception {
+        Race persistedRace = raceRepository.save(givenRace());
+        raceApplicationRepository.save(givenRaceApplication(persistedUser, persistedRace));
+
+        verifyQueueIsEmpty();
+
+        assertThat(raceApplicationRepository.findAll().size()).isOne();
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + persistedRace.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        assertThat(raceRepository.findAll().size()).isZero();
+        assertThat(raceApplicationRepository.findAll().size()).isZero();
 
         verifyMessageInQueue();
     }

@@ -5,6 +5,7 @@ import com.lzalar.clients.events.race.DeleteRaceEvent;
 import com.lzalar.clients.events.race.EditRaceEvent;
 import com.lzalar.clients.events.raceapplication.CreateRaceApplicationEvent;
 import com.lzalar.clients.events.raceapplication.DeleteRaceApplicationEvent;
+import com.lzalar.raceproducer.domain.exception.TrailblazerException;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.service.ampq.RabbitMessageService;
@@ -22,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.lzalar.raceproducer.domain.exception.ErrorCode.*;
+
 @Component
 @RequiredArgsConstructor
 @Transactional
@@ -33,62 +36,76 @@ public class RaceService {
     private final RaceApplicationMapper raceApplicationMapper;
     private final RabbitMessageService rabbitMessageService;
     private final AuthenticationService authenticationService;
+    private final UuidGeneratorService uuidGeneratorService;
 
 
 
     public UUID createRace(RaceDTO raceDTO) {
         Race race = raceMapper.mapFromDto(raceDTO);
-        race.setId(null); // throw replace with validation
+        if (raceDTO.id() != null) {
+            throw new TrailblazerException(RACE_ID_SHOULD_NOT_BE_PROVIDED);
+        }
 
         race = raceRepository.save(race);
-        rabbitMessageService.sendMessage(new CreateRaceEvent(UUID.randomUUID(), race.getId(), race.getName(), race.getDistance().name()));
+        rabbitMessageService.sendMessage(new CreateRaceEvent(uuidGeneratorService.generateRandomUUID(), race.getId(), race.getName(), race.getDistance().name()));
         return race.getId();
     }
 
     public void updateRace(UUID raceId, RaceDTO raceDTO) {
+        if (!raceId.equals(raceDTO.id())) {
+            throw new TrailblazerException(RACE_IDS_DO_NOT_MATCH);
+        }
+
         Optional<Race> raceOptional = raceRepository.findById(raceId);
 
-        if (raceOptional.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+        validateRaceExists(raceOptional);
+
         Race race = raceMapper.mapFromDto(raceDTO);
-        race.setId(raceOptional.get().getId());
 
         raceRepository.save(race);
 
-        rabbitMessageService.sendMessage(new EditRaceEvent(UUID.randomUUID(), race.getId(), race.getName(), race.getDistance().name()));
+        rabbitMessageService.sendMessage(new EditRaceEvent(uuidGeneratorService.generateRandomUUID(), race.getId(), race.getName(), race.getDistance().name()));
     }
 
     public void deleteRace(UUID raceId) {
         Optional<Race> raceOptional = raceRepository.findById(raceId);
-        if (raceOptional.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+
+        validateRaceExists(raceOptional);
 
         raceApplicationRepository.deleteRaceApplicationByRace(raceOptional.get());
         raceRepository.deleteById(raceId);
 
-        rabbitMessageService.sendMessage(new DeleteRaceEvent(UUID.randomUUID(),raceId));
+        rabbitMessageService.sendMessage(new DeleteRaceEvent(uuidGeneratorService.generateRandomUUID(),raceId));
+    }
+
+    private static void validateRaceExists(Optional<Race> raceOptional) {
+        if (raceOptional.isEmpty()) {
+            throw new TrailblazerException(RACE_NOT_FOUND);
+        }
     }
 
     public void applyToRace(UUID raceId, RaceApplicationDTO raceApplicationDTO) {
-        Race race = raceRepository.findById(raceId).orElseThrow();
+        Optional<Race> raceOptional = raceRepository.findById(raceId);
+
+        validateRaceExists(raceOptional);
+
+        Race race = raceOptional.get();
 
         RaceApplication raceApplication = raceApplicationMapper.map(raceApplicationDTO);
         raceApplication.setUser(authenticationService.getCurrentUser());
 
         raceApplication = raceApplicationRepository.save(raceApplication);
 
-        rabbitMessageService.sendMessage(new CreateRaceApplicationEvent(UUID.randomUUID(), raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, race.getName(), race.getDistance().name(), raceApplication.getUser().getId()));
+        rabbitMessageService.sendMessage(new CreateRaceApplicationEvent(uuidGeneratorService.generateRandomUUID(), raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, race.getName(), race.getDistance().name(), raceApplication.getUser().getId()));
     }
 
     public void deleteRaceApplication(UUID raceApplicationId) {
         Optional<RaceApplication> raceApplication = raceApplicationRepository.findById(raceApplicationId);
         if (raceApplication.isEmpty()) {
-            throw new IllegalArgumentException(); // todo error codes
+            throw new TrailblazerException(RACE_APPLICATION_NOT_FOUND);
         }
 
         raceApplicationRepository.deleteById(raceApplicationId);
-        rabbitMessageService.sendMessage(new DeleteRaceApplicationEvent(UUID.randomUUID(), raceApplicationId));
+        rabbitMessageService.sendMessage(new DeleteRaceApplicationEvent(uuidGeneratorService.generateRandomUUID(), raceApplicationId));
     }
 }

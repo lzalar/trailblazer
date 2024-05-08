@@ -30,7 +30,7 @@ public class RaceApplicationViewProjector implements Projector {
     }
 
     private void handleCreateRaceApplicationEvent(CreateRaceApplicationEvent createRaceApplicationEvent) {
-        raceApplicationViewRepository.save(new RaceApplicationViewProjection(createRaceApplicationEvent.getId(),
+        raceApplicationViewRepository.save(new RaceApplicationViewProjection(createRaceApplicationEvent.getRaceApplicationId(),
                 createRaceApplicationEvent.getFirstName(),
                 createRaceApplicationEvent.getLastName(),
                 createRaceApplicationEvent.getClub(),

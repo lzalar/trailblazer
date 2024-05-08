@@ -11,7 +11,7 @@ import java.util.UUID;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class CreateRaceApplicationEvent extends ApplicationEvent {
-    private final UUID id;
+    private final UUID raceApplicationId;
     private final String firstName;
     private final String lastName;
     private final String club;
@@ -20,9 +20,9 @@ public class CreateRaceApplicationEvent extends ApplicationEvent {
     private final String distance;
     private final UUID userId;
 
-    public CreateRaceApplicationEvent(UUID eventId, UUID id, String firstName, String lastName, String club, UUID raceId, String raceName, String distance, UUID userId) {
+    public CreateRaceApplicationEvent(UUID eventId, UUID raceApplicationId, String firstName, String lastName, String club, UUID raceId, String raceName, String distance, UUID userId) {
         super(eventId);
-        this.id = id;
+        this.raceApplicationId = raceApplicationId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.club = club;
