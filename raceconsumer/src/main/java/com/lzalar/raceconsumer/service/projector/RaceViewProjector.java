@@ -33,7 +33,7 @@ public class RaceViewProjector implements Projector {
     }
 
     private void handleDeleteRaceEvent(DeleteRaceEvent deleteRaceEvent) {
-        raceViewRepository.deleteById(deleteRaceEvent.getRaceId()); // todo delete hanging applications
+        raceViewRepository.deleteById(deleteRaceEvent.getRaceId());
     }
 
 
