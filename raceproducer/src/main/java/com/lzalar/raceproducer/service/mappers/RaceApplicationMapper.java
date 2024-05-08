@@ -2,7 +2,6 @@ package com.lzalar.raceproducer.service.mappers;
 
 import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.repository.RaceRepository;
-import com.lzalar.raceproducer.repository.UserRepository;
 import com.lzalar.raceproducer.web.dto.RaceApplicationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

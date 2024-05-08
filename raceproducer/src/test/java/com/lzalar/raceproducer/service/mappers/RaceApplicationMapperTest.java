@@ -1,23 +1,21 @@
 package com.lzalar.raceproducer.service.mappers;
 
-import com.lzalar.raceproducer.constants.RaceApplicationTestConstants;
-import com.lzalar.raceproducer.constants.RaceTestConstants;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.repository.RaceRepository;
 import com.lzalar.raceproducer.web.dto.RaceApplicationDTO;
-import com.lzalar.raceproducer.web.dto.RaceDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.*;
-import static com.lzalar.raceproducer.constants.RaceTestConstants.*;
+import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.givenRaceApplicationBuilder;
+import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.givenRaceApplicationDTO;
+import static com.lzalar.raceproducer.constants.RaceTestConstants.RACE_ID;
+import static com.lzalar.raceproducer.constants.RaceTestConstants.givenRace;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RaceApplicationMapperTest {

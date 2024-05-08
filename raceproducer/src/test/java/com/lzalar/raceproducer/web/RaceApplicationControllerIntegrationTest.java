@@ -1,7 +1,6 @@
 package com.lzalar.raceproducer.web;
 
 import com.lzalar.raceproducer.BaseIntegrationTest;
-import com.lzalar.raceproducer.constants.RaceApplicationTestConstants;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import org.junit.jupiter.api.Test;
@@ -10,9 +9,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.UUID;
-
-import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.*;
+import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.RACE_APPLICATION_ID;
 import static com.lzalar.raceproducer.constants.RaceTestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 

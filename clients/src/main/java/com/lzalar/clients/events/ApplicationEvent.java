@@ -2,7 +2,6 @@ package com.lzalar.clients.events;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 
 import java.util.UUID;
 

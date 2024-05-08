@@ -4,11 +4,8 @@ import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.domain.user.User;
 import com.lzalar.raceproducer.web.dto.RaceApplicationDTO;
-import com.lzalar.raceproducer.web.dto.RaceDTO;
 
 import java.util.UUID;
-
-import static com.lzalar.raceproducer.domain.race.Distance.MARATHON;
 
 public class RaceApplicationTestConstants {
 

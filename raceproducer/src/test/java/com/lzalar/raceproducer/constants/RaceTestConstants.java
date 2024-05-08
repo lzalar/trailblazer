@@ -1,12 +1,11 @@
 package com.lzalar.raceproducer.constants;
 
-import com.lzalar.raceproducer.domain.race.Distance;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 
 import java.util.UUID;
 
-import static com.lzalar.raceproducer.domain.race.Distance.*;
+import static com.lzalar.raceproducer.domain.race.Distance.MARATHON;
 
 public class RaceTestConstants {
 
