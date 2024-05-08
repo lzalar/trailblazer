@@ -1,10 +1,11 @@
 package com.lzalar.raceconsumer.service.projector;
 
-import com.lzalar.clients.events.race.CreateRaceEvent;
 import com.lzalar.clients.events.race.DeleteRaceEvent;
 import com.lzalar.clients.events.race.EditRaceEvent;
+import com.lzalar.clients.events.raceapplication.CreateRaceApplicationEvent;
+import com.lzalar.clients.events.raceapplication.DeleteRaceApplicationEvent;
 import com.lzalar.raceconsumer.BaseIntegrationTest;
-import com.lzalar.raceconsumer.constants.RaceViewTestContants;
+import com.lzalar.raceconsumer.domain.RaceApplicationView;
 import com.lzalar.raceconsumer.domain.RaceView;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static com.lzalar.raceconsumer.constants.RaceApplicationViewTestContants.givenRaceApplicationView;
+import static com.lzalar.raceconsumer.constants.RaceApplicationViewTestContants.givenRaceApplicationViewBuilder;
+import static com.lzalar.raceconsumer.constants.RaceViewTestContants.givenRaceViewBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
@@ -26,56 +30,65 @@ class RaceApplicationViewProjectorIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void deleteRaceEvent_deleteRaceApplicationViews() {
-        RaceView raceView = RaceViewTestContants.givenRaceView();
-        raceViewRepository.save(raceView);
+        RaceApplicationView raceApplicationView = givenRaceApplicationView();
+        raceApplicationViewRepository.save(raceApplicationView);
 
-        assertThat(raceViewRepository.findAll().isEmpty()).isFalse();
+        assertThat(raceApplicationViewRepository.findAll().isEmpty()).isFalse();
 
-        rabbitTemplate.convertAndSend(exchange, routingKey, new DeleteRaceEvent(UUID.randomUUID(), raceView.getId()));
+        rabbitTemplate.convertAndSend(exchange, routingKey, new DeleteRaceEvent(UUID.randomUUID(), raceApplicationView.getRaceId()));
 
-        await().atMost(5, TimeUnit.SECONDS).until(() -> raceViewRepository.findAll().isEmpty());
+        await().atMost(5, TimeUnit.SECONDS).until(() -> raceApplicationViewRepository.findAll().isEmpty());
     }
 
     @Test
     void updateRaceEvent_updateExistingRaceApplicationView() {
-        RaceView raceView = RaceViewTestContants.givenRaceView();
-        RaceView expected = RaceViewTestContants.givenRaceViewBuilder()
+        RaceApplicationView applicationView = givenRaceApplicationView();
+        raceApplicationViewRepository.save(applicationView);
+
+        RaceView raceView = givenRaceViewBuilder()
                 .name("secondRace")
                 .distance("5K")
                 .build();
-        raceViewRepository.save(raceView);
 
-        assertThat(raceViewRepository.findAll().isEmpty()).isFalse();
+        RaceApplicationView expected = givenRaceApplicationViewBuilder()
+                .raceName(raceView.getName())
+                .distance(raceView.getDistance())
+                .build();
 
-        rabbitTemplate.convertAndSend(exchange, routingKey, new EditRaceEvent(UUID.randomUUID(), expected.getId(), expected.getName(), expected.getDistance()));
+        assertThat(raceApplicationViewRepository.findAll().isEmpty()).isFalse();
+
+        rabbitTemplate.convertAndSend(exchange, routingKey, new EditRaceEvent(UUID.randomUUID(), raceView.getId(), raceView.getName(), raceView.getDistance()));
 
         await().atMost(5, TimeUnit.SECONDS).until(
-                () -> expected.equals(raceViewRepository.findById(raceView.getId()).orElse(null))
+                () -> expected.equals(raceApplicationViewRepository.findById(applicationView.getRaceApplicationId()).orElse(null))
         );
     }
 
     @Test
     void createRaceApplicationEvent_createRaceApplicationView() {
-        RaceView expected = RaceViewTestContants.givenRaceView();
+        RaceApplicationView expected = givenRaceApplicationView();
 
-        assertThat(raceViewRepository.findAll().isEmpty()).isTrue();
+        assertThat(raceApplicationViewRepository.findAll().isEmpty()).isTrue();
 
-        rabbitTemplate.convertAndSend(exchange, routingKey, new CreateRaceEvent(UUID.randomUUID(), expected.getId(), expected.getName(), expected.getDistance()));
+        rabbitTemplate.convertAndSend(exchange, routingKey, new CreateRaceApplicationEvent(UUID.randomUUID(),
+                expected.getRaceApplicationId(), expected.getFirstName(),
+                expected.getLastName(),expected.getClub(),expected.getRaceId(),
+                expected.getRaceName(),expected.getDistance(),expected.getUserId()));
 
         await().atMost(5, TimeUnit.SECONDS).until(
-                () -> expected.equals(raceViewRepository.findById(expected.getId()).orElse(null))
+                () -> expected.equals(raceApplicationViewRepository.findById(expected.getRaceApplicationId()).orElse(null))
         );
     }
 
     @Test
     void deleteRaceApplicationEvent_deleteRaceApplicationView() {
-        RaceView raceView = RaceViewTestContants.givenRaceView();
-        raceViewRepository.save(raceView);
+        RaceApplicationView raceApplicationView = givenRaceApplicationView();
+        raceApplicationViewRepository.save(raceApplicationView);
 
-        assertThat(raceViewRepository.findAll().isEmpty()).isFalse();
+        assertThat(raceApplicationViewRepository.findAll().isEmpty()).isFalse();
 
-        rabbitTemplate.convertAndSend(exchange, routingKey, new DeleteRaceEvent(UUID.randomUUID(), raceView.getId()));
+        rabbitTemplate.convertAndSend(exchange, routingKey, new DeleteRaceApplicationEvent(UUID.randomUUID(), raceApplicationView.getRaceApplicationId()));
 
-        await().atMost(5, TimeUnit.SECONDS).until(() -> raceViewRepository.findAll().isEmpty());
+        await().atMost(5, TimeUnit.SECONDS).until(() -> raceApplicationViewRepository.findAll().isEmpty());
     }
 }

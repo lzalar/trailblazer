@@ -19,7 +19,7 @@ public class AuthenticationService {
         if(SecurityContextHolder.getContext().getAuthentication() instanceof JwtAuthenticationToken jwtAuthenticationToken){
             return UUID.fromString(jwtAuthenticationToken.getName());
         }
-        throw new IllegalArgumentException();
+        throw new IllegalStateException();
     }
 
     public User getCurrentUser(){

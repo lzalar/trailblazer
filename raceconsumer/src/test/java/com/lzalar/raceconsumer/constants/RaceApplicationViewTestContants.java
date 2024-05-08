@@ -12,10 +12,10 @@ public class RaceApplicationViewTestContants {
     public static final UUID USER_ID = UUID.fromString("000afffe-42b5-400d-b5e9-9ff92c28cb87");
 
     public static RaceApplicationView givenRaceApplicationView(){
-        return givenRaceViewBuilder().build();
+        return givenRaceApplicationViewBuilder().build();
     }
 
-    public static RaceApplicationView.RaceApplicationViewBuilder givenRaceViewBuilder(){
+    public static RaceApplicationView.RaceApplicationViewBuilder givenRaceApplicationViewBuilder(){
         return RaceApplicationView.builder()
                 .raceApplicationId(RACE_APPLICATION_VIEW_ID)
                 .firstName("jon")
