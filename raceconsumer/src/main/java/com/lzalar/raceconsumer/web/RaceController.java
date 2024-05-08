@@ -1,7 +1,7 @@
 package com.lzalar.raceconsumer.web;
 
 import com.lzalar.raceconsumer.domain.RaceViewProjection;
-import com.lzalar.raceconsumer.repository.RaceViewRepository;
+import com.lzalar.raceconsumer.service.RaceQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +16,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RaceController {
 
-    private final RaceViewRepository raceViewRepository;
+    private final RaceQueryService raceQueryService;
 
     @GetMapping
     public List<RaceViewProjection> getAllRaces() {
-        return raceViewRepository.findAll();
+        return raceQueryService.getAllRaces();
     }
 
     @GetMapping("/{raceId}")
-    public RaceViewProjection getSingleRace(@PathVariable UUID raceId) { // todo implement me
-        return raceViewRepository.findById(raceId).get();
+    public RaceViewProjection getSingleRace(@PathVariable UUID raceId) {
+        return raceQueryService.getRace(raceId);
     }
 }
 

@@ -1,16 +1,6 @@
 package com.lzalar.raceconsumer.service;
 
 import com.lzalar.clients.events.race.ApplicationEvent;
-import com.lzalar.clients.events.race.CreateRaceEvent;
-import com.lzalar.clients.events.race.DeleteRaceEvent;
-import com.lzalar.clients.events.race.EditRaceEvent;
-import com.lzalar.clients.events.race.application.CreateRaceApplicationEvent;
-import com.lzalar.clients.events.race.application.DeleteRaceApplicationEvent;
-import com.lzalar.raceconsumer.domain.RaceApplicationBasic;
-import com.lzalar.raceconsumer.domain.RaceApplicationPerUserProjection;
-import com.lzalar.raceconsumer.domain.RaceViewProjection;
-import com.lzalar.raceconsumer.repository.RaceApplicationPerUserRepository;
-import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import com.lzalar.raceconsumer.service.projector.Projector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

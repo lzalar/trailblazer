@@ -32,5 +32,7 @@ public class RaceApplicationProjection {
     private String raceName;
     @Column(name = "race_distance")
     private String distance;
+    @Column(name = "user_id")
+    private UUID userId;
 
 }

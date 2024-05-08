@@ -1,14 +1,14 @@
 package com.lzalar.raceconsumer.web;
 
-import com.lzalar.raceconsumer.domain.RaceApplicationPerUserProjection;
-import com.lzalar.raceconsumer.repository.RaceApplicationPerUserRepository;
+import com.lzalar.raceconsumer.domain.RaceApplicationPerUserDTO;
+import com.lzalar.raceconsumer.domain.RaceApplicationProjection;
+import com.lzalar.raceconsumer.service.RaceQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,16 +16,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RaceApplicationController {
 
-    private final RaceApplicationPerUserRepository raceApplicationPerUserRepository;
+    private final RaceQueryService raceQueryService;
 
     @GetMapping("/all/{userId}") // todo change
-    public List<RaceApplicationPerUserProjection> getAllRaceApplicationsForUser(@PathVariable UUID userId) {
-        return raceApplicationPerUserRepository.findAll();
+    public RaceApplicationPerUserDTO getAllRaceApplicationsForUser(@PathVariable UUID userId) {
+        return raceQueryService.getAllRaceApplicationsForUser(userId);
     }
 
     @GetMapping("{raceApplicationId}")
-    public void getRaceApplication(@PathVariable String raceApplicationId) { // todo implement me
-
+    public RaceApplicationProjection getRaceApplication(@PathVariable UUID raceApplicationId) {
+        return raceQueryService.getRaceApplication(raceApplicationId);
     }
 
 }
