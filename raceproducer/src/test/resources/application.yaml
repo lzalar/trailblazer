@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: raceproducer
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8090/realms/trailblazer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/trailblazer
+    username: trailblazer
+    password: secret
+  rabbitmq:
+    username: trailblazer
+    password: secret
+    host: localhost
+    port: 5672
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    default-schema: public
+
+rabbitmq:
+    queue:
+      name: "trailblazer-queue"
+    exchange:
+      name: "trailblazer-exchange"
+    routing:
+      key: "routing_key"
