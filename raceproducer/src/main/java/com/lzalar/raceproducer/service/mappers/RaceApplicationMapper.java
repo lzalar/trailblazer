@@ -12,28 +12,16 @@ import org.springframework.stereotype.Component;
 public class RaceApplicationMapper {
 
     private final RaceRepository raceRepository;
-    private final UserRepository userRepository;
 
 
-    public RaceApplication mapFromDto(RaceApplicationDTO raceApplicationDTO){
+    public RaceApplication map(RaceApplicationDTO raceApplicationDTO) {
         return new RaceApplication(
-                raceApplicationDTO.id(),
+                null,
                 raceApplicationDTO.firstName(),
                 raceApplicationDTO.lastName(),
                 raceApplicationDTO.club(),
                 raceRepository.getReferenceById(raceApplicationDTO.raceId()),
-                userRepository.getReferenceById(raceApplicationDTO.userId())
-        );
-    }
-
-    public RaceApplicationDTO mapToDto(RaceApplication raceApplication){
-        return new RaceApplicationDTO(
-                raceApplication.getId(),
-                raceApplication.getFirstName(),
-                raceApplication.getLastName(),
-                raceApplication.getClub(),
-                raceApplication.getRace().getId(),
-                raceApplication.getUser().getId()
+                null
         );
     }
 }

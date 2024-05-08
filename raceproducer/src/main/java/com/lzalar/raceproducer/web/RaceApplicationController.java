@@ -15,11 +15,11 @@ public class RaceApplicationController {
 
 
     private final RaceService raceService;
-    private final RaceApplicationMapper raceApplicationMapper;
+
 
     @PostMapping("/{raceId}")
     public void applyToRace(@PathVariable UUID raceId, @RequestBody RaceApplicationDTO raceApplicationDTO){
-        raceService.applyToRace(raceId,raceApplicationMapper.mapFromDto(raceApplicationDTO));
+        raceService.applyToRace(raceId, raceApplicationDTO);
     }
 
     @DeleteMapping("/{raceApplicationId}")
