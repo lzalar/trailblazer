@@ -23,8 +23,8 @@ class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/swagger-ui/**","/v3/api-docs/**")
-                                .permitAll())
-//                                .anyRequest().authenticated())
+                                .permitAll()
+                                .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
         return http.build();
     }
