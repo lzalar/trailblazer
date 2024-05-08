@@ -14,5 +14,7 @@ public class CreateRaceApplicationEvent extends ApplicationEvent {
     String lastName;
     String club;
     UUID raceId;
+    String raceName;
+    String distance;
     UUID userId;
 }

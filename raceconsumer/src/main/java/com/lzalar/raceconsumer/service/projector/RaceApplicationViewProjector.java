@@ -4,6 +4,9 @@ import com.lzalar.clients.events.race.ApplicationEvent;
 import com.lzalar.clients.events.race.CreateRaceEvent;
 import com.lzalar.clients.events.race.DeleteRaceEvent;
 import com.lzalar.clients.events.race.EditRaceEvent;
+import com.lzalar.clients.events.race.application.CreateRaceApplicationEvent;
+import com.lzalar.clients.events.race.application.DeleteRaceApplicationEvent;
+import com.lzalar.raceconsumer.domain.RaceApplicationProjection;
 import com.lzalar.raceconsumer.domain.RaceViewProjection;
 import com.lzalar.raceconsumer.repository.RaceApplicationViewRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
@@ -23,29 +26,35 @@ public class RaceApplicationViewProjector implements Projector {
     @Override
     public void process(ApplicationEvent applicationEvent) {
         switch (applicationEvent) {
+            case CreateRaceApplicationEvent createRaceApplicationEvent -> handleCreateRaceApplicationEvent(createRaceApplicationEvent);
+            case DeleteRaceApplicationEvent deleteRaceApplicationEvent -> handleDeleteRaceApplicationEvent(deleteRaceApplicationEvent);
             case EditRaceEvent editRaceEvent -> handleEditRaceEvent(editRaceEvent);
-            case DeleteRaceEvent deleteRaceEvent -> handleEditRaceEvent(deleteRaceEvent);
-            default -> {
-            }
+            case DeleteRaceEvent deleteRaceEvent -> handleDeleteRaceEvent(deleteRaceEvent);
+            default -> {}
         }
     }
 
+    private void handleCreateRaceApplicationEvent(CreateRaceApplicationEvent createRaceApplicationEvent) {
+        raceApplicationViewRepository.save(new RaceApplicationProjection(createRaceApplicationEvent.getId(),
+                createRaceApplicationEvent.getFirstName(),
+                createRaceApplicationEvent.getLastName(),
+                createRaceApplicationEvent.getClub(),
+                createRaceApplicationEvent.getRaceId(),
+                createRaceApplicationEvent.getRaceName(),
+                createRaceApplicationEvent.getDistance()
+                ));
+    }
 
-    private void handleDeleteRaceEvent(CreateRaceEvent createRaceEvent) {
-        raceViewRepository.save(new RaceViewProjection(createRaceEvent.getRaceId(), createRaceEvent.getName(), createRaceEvent.getDistance()));
+    private void handleDeleteRaceApplicationEvent(DeleteRaceApplicationEvent deleteRaceApplicationEvent) {
+        raceApplicationViewRepository.deleteById(deleteRaceApplicationEvent.getRaceApplicationId());
+    }
+
+
+    private void handleDeleteRaceEvent(DeleteRaceEvent deleteRaceEvent) {
+        raceApplicationViewRepository.deleteByRace(deleteRaceEvent.getRaceId());
     }
 
     private void handleEditRaceEvent(EditRaceEvent editRaceEvent) {
-        Optional<RaceViewProjection> raceViewOptional = raceViewRepository.findById(editRaceEvent.getRaceId());
-        if (raceViewOptional.isEmpty()) {
-            log.error("race with id: {} does not exist", editRaceEvent.getRaceId());
-            return;
-        }
-
-        RaceViewProjection raceViewProjection = raceViewOptional.get();
-
-        raceViewProjection.setName(editRaceEvent.getName());
-        raceViewProjection.setDistance(editRaceEvent.getDistance());
-        raceViewRepository.save(raceViewProjection);
+        raceApplicationViewRepository.updateRaceInformation(editRaceEvent.getName(),editRaceEvent.getDistance(),editRaceEvent.getRaceId());
     }
 }

@@ -67,15 +67,17 @@ public class RaceService {
     }
 
     public void applyToRace(UUID raceId, RaceApplication raceApplication) {
+        Race race = raceRepository.findById(raceId).get();
         raceApplication.setUser(userRepository.findAll().get(0));
         raceApplication = raceApplicationRepository.save(raceApplication);
-        messageProducer.sendMessage(new CreateRaceApplicationEvent(raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, raceApplication.getUser().getId()));
+
+        messageProducer.sendMessage(new CreateRaceApplicationEvent(raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, race.getName(), race.getDistance().name(), raceApplication.getUser().getId()));
     }
 
     public void deleteRaceApplication(UUID raceApplicationId) {
         Optional<RaceApplication> raceApplication = raceApplicationRepository.findById(raceApplicationId);
         if (raceApplication.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(); // todo error codes
         }
 
         raceApplicationRepository.deleteById(raceApplicationId);
