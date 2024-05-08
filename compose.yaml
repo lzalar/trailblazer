@@ -4,7 +4,7 @@ services:
     environment:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_trailblazer_producer_db:5432/trailblazer'
       - 'SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak:8080/realms/trailblazer'
-      - 'LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG'
+      - 'SPRING_RABBITMQ_HOST=rabbitmq'
     ports:
       - '8081:8080'
   race-consumer:
@@ -12,7 +12,7 @@ services:
     environment:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_trailblazer_consumer_db:5432/trailblazer'
       - 'SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak:8080/realms/trailblazer'
-      - 'LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG'
+      - 'SPRING_RABBITMQ_HOST=rabbitmq'
     ports:
       - '8082:8080'
   postgres_trailblazer_producer_db:
