@@ -17,6 +17,7 @@ public enum ErrorCode {
   RACE_IDS_DO_NOT_MATCH(40004, "Race id in the url and body do not match", BAD_REQUEST),
   CONSTRAINT_VIOLATION(40005, "Constraint violation", BAD_REQUEST),
   RACE_APPLICATION_NOT_FOUND(40006, "Race application not found", BAD_REQUEST),
+  USER_ALREADY_APPLIED_TO_RACE(40007, "Race application for this race already exists", BAD_REQUEST),
   INTERNAL_ERROR(50001, "Internal Server Error", INTERNAL_SERVER_ERROR);
 
   private final int code;

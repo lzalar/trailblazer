@@ -8,6 +8,7 @@ import com.lzalar.clients.events.raceapplication.DeleteRaceApplicationEvent;
 import com.lzalar.raceproducer.domain.exception.TrailblazerException;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
+import com.lzalar.raceproducer.domain.user.User;
 import com.lzalar.raceproducer.repository.RaceApplicationRepository;
 import com.lzalar.raceproducer.repository.RaceRepository;
 import com.lzalar.raceproducer.service.ampq.RabbitMessageService;
@@ -166,6 +167,21 @@ class RaceServiceTest {
         raceService.applyToRace(RACE_ID, raceApplicationDTO);
 
         verify(rabbitMessageService).sendMessage(createRaceApplicationEvent);
+    }
+
+    @Test
+    void givenRaceApplicationAlreadyExistsForUser_applyToRace_throws() {
+        RaceApplicationDTO raceApplicationDTO = givenRaceApplicationDTO();
+        Race race = givenRace();
+        User user = givenUser();
+
+        when(raceRepository.findById(RACE_ID)).thenReturn(Optional.of(race));
+        when(authenticationService.getCurrentUser()).thenReturn(user);
+        when(raceApplicationRepository.existsByUserAndRace(user, race)).thenReturn(true);
+
+        assertThatCode(() -> raceService.applyToRace(RACE_ID, raceApplicationDTO))
+                .isInstanceOf(TrailblazerException.class)
+                .hasMessage(USER_ALREADY_APPLIED_TO_RACE.getMessage());
     }
 
     @Test

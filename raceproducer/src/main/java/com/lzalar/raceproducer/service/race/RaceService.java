@@ -8,6 +8,7 @@ import com.lzalar.clients.events.raceapplication.DeleteRaceApplicationEvent;
 import com.lzalar.raceproducer.domain.exception.TrailblazerException;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
+import com.lzalar.raceproducer.domain.user.User;
 import com.lzalar.raceproducer.service.ampq.RabbitMessageService;
 import com.lzalar.raceproducer.repository.RaceApplicationRepository;
 import com.lzalar.raceproducer.repository.RaceRepository;
@@ -37,7 +38,6 @@ public class RaceService {
     private final RabbitMessageService rabbitMessageService;
     private final AuthenticationService authenticationService;
     private final UuidGeneratorService uuidGeneratorService;
-
 
 
     public UUID createRace(RaceDTO raceDTO) {
@@ -75,7 +75,7 @@ public class RaceService {
         raceApplicationRepository.deleteRaceApplicationByRace(raceOptional.get());
         raceRepository.deleteById(raceId);
 
-        rabbitMessageService.sendMessage(new DeleteRaceEvent(uuidGeneratorService.generateRandomUUID(),raceId));
+        rabbitMessageService.sendMessage(new DeleteRaceEvent(uuidGeneratorService.generateRandomUUID(), raceId));
     }
 
     private static void validateRaceExists(Optional<Race> raceOptional) {
@@ -91,12 +91,21 @@ public class RaceService {
 
         Race race = raceOptional.get();
 
+        User currentUser = authenticationService.getCurrentUser();
+        validateUserNotAlreadyApplied(currentUser, race);
+
         RaceApplication raceApplication = raceApplicationMapper.map(raceApplicationDTO);
-        raceApplication.setUser(authenticationService.getCurrentUser());
+        raceApplication.setUser(currentUser);
 
         raceApplication = raceApplicationRepository.save(raceApplication);
 
         rabbitMessageService.sendMessage(new CreateRaceApplicationEvent(uuidGeneratorService.generateRandomUUID(), raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, race.getName(), race.getDistance().name(), raceApplication.getUser().getId()));
+    }
+
+    private void validateUserNotAlreadyApplied(User user, Race race) {
+        if (raceApplicationRepository.existsByUserAndRace(user, race)) {
+            throw new TrailblazerException(USER_ALREADY_APPLIED_TO_RACE);
+        }
     }
 
     public void deleteRaceApplication(UUID raceApplicationId) {

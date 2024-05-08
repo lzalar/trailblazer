@@ -1,20 +1,19 @@
 package com.lzalar.raceproducer.web;
 
 import com.lzalar.raceproducer.BaseIntegrationTest;
-import com.lzalar.raceproducer.constants.UserTestConstants;
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.domain.race.RaceApplication;
-import com.lzalar.raceproducer.domain.user.User;
 import com.lzalar.raceproducer.web.dto.RaceApplicationDTO;
-import com.lzalar.raceproducer.web.dto.RaceDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.*;
-import static com.lzalar.raceproducer.constants.RaceTestConstants.*;
+import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.givenRaceApplication;
+import static com.lzalar.raceproducer.constants.RaceApplicationTestConstants.givenRaceApplicationDTO;
+import static com.lzalar.raceproducer.constants.RaceTestConstants.RACE_ID;
+import static com.lzalar.raceproducer.constants.RaceTestConstants.givenRace;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -41,6 +40,22 @@ public class RaceApplicationControllerIntegrationTest extends BaseIntegrationTes
         assertThat(raceApplicationRepository.findAll().size()).isOne();
 
         verifyMessageInQueue();
+    }
+
+    @Test
+    @WithMockUser
+    public void givenAnyUserRaceApplicationAlreadyExists_createRaceApplication_successAndEmitEvent() throws Exception {
+        Race persistedRace = raceRepository.save(givenRace());
+        RaceApplicationDTO raceApplicationDTO = givenRaceApplicationDTO();
+        raceApplicationRepository.save(givenRaceApplication(persistedUser, persistedRace));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(raceApplicationDTO))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+
+        assertThat(raceApplicationRepository.findAll().size()).isOne();
     }
 
     @Test
