@@ -13,18 +13,24 @@ public class RaceTestConstants {
     public static final UUID RACE_ID = UUID.fromString("217afbae-42b5-416d-b5e9-9ff92c28cb87");
 
     public static Race givenRace(){
-        return new Race(
-                RACE_ID,
-                "testRace",
-                MARATHON
-        );
+        return givenRaceBuilder().build();
+    }
+
+    public static Race.RaceBuilder givenRaceBuilder(){
+        return Race.builder()
+                .id(RACE_ID)
+                .name("testRace")
+                .distance(MARATHON);
     }
 
     public static RaceDTO givenRaceDTO(){
-        return new RaceDTO(
-                RACE_ID,
-                "testRace",
-                MARATHON
-        );
+        return givenRaceDTOBuilder().build();
+    }
+
+    public static RaceDTO.RaceDTOBuilder givenRaceDTOBuilder(){
+        return RaceDTO.builder()
+                .id(RACE_ID)
+                .name("testRace")
+                .distance(MARATHON);
     }
 }

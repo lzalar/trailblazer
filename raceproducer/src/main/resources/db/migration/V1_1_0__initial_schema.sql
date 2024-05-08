@@ -55,7 +55,7 @@ create table race_application
 create index idx_race_application_race_id on race_application (race_id);
 create index idx_race_application_user_id on race_application (user_id);
 
-insert into app_user
-values (gen_random_uuid(), 'ivan', 'horvat', 'ivan.horvat@gmail.com', '1997-05-15', 'ADMINISTRATOR')
+-- insert into app_user
+-- values (gen_random_uuid(), 'ivan', 'horvat', 'ivan.horvat@gmail.com', '1997-05-15', 'ADMINISTRATOR')
 
 

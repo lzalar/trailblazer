@@ -1,7 +1,7 @@
 package com.lzalar.raceconsumer.web;
 
-import com.lzalar.raceconsumer.domain.RaceApplicationPerUserDTO;
-import com.lzalar.raceconsumer.domain.RaceApplicationProjection;
+import com.lzalar.raceconsumer.web.dto.RaceApplicationPerUserDTO;
+import com.lzalar.raceconsumer.domain.RaceApplicationViewProjection;
 import com.lzalar.raceconsumer.service.RaceQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,7 @@ public class RaceApplicationController {
     }
 
     @GetMapping("{raceApplicationId}")
-    public RaceApplicationProjection getRaceApplication(@PathVariable UUID raceApplicationId) {
+    public RaceApplicationViewProjection getRaceApplication(@PathVariable UUID raceApplicationId) {
         return raceQueryService.getRaceApplication(raceApplicationId);
     }
 

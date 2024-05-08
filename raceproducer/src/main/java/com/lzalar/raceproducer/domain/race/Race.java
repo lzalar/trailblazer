@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -19,7 +20,6 @@ import static jakarta.persistence.EnumType.STRING;
 public class Race {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     private UUID id;
     @Column(name = "name", nullable = false)
@@ -27,4 +27,12 @@ public class Race {
     @Column(name = "distance", nullable = false)
     @Enumerated(STRING)
     private Distance distance;
+
+
+    @PrePersist
+    protected void onCreate() {
+        if (Objects.isNull(this.id)) {
+            this.id = UUID.randomUUID();
+        }
+    }
 }
