@@ -3,17 +3,17 @@ package com.lzalar.raceproducer;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 
-public class PostgreSQLCustomContainer extends PostgreSQLContainer<PostgreSQLCustomContainer> {
+public class PostgreSQLSharedContainer extends PostgreSQLContainer<PostgreSQLSharedContainer> {
     private static final String IMAGE_VERSION = "postgres:16.2";
-    private static PostgreSQLCustomContainer container;
+    private static PostgreSQLSharedContainer container;
 
-    private PostgreSQLCustomContainer() {
+    private PostgreSQLSharedContainer() {
         super(IMAGE_VERSION);
     }
 
-    public static PostgreSQLCustomContainer getInstance() {
+    public static PostgreSQLSharedContainer getInstance() {
         if (container == null) {
-            container = new PostgreSQLCustomContainer();
+            container = new PostgreSQLSharedContainer();
         }
         return container;
     }

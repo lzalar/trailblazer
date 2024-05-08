@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class RaceApplicationControllerIntegrationTest extends BaseIntegrationTest {
 
-    private static final String BASE_URL = "/api/v1/race/" + RACE_ID + "/application/";
+    private static final String BASE_URL = "/api/v1/race/" + RACE_ID + "/application";
 
     @Test
     @WithMockUser
@@ -32,7 +32,7 @@ public class RaceApplicationControllerIntegrationTest extends BaseIntegrationTes
 
         verifyQueueIsEmpty();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/race")
+        mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(raceApplicationDTO))
                         .accept(MediaType.APPLICATION_JSON))
@@ -47,14 +47,13 @@ public class RaceApplicationControllerIntegrationTest extends BaseIntegrationTes
     @WithMockUser
     public void givenAnyUser_deleteRaceApplication_successAndEmitEvent() throws Exception {
         Race persistedRace = raceRepository.save(givenRace());
-        User user = userRepository.save(UserTestConstants.givenUser());
-        RaceApplication persistedRaceApplication = raceApplicationRepository.save(givenRaceApplication(user, persistedRace));
+        RaceApplication persistedRaceApplication = raceApplicationRepository.save(givenRaceApplication(persistedUser, persistedRace));
 
         verifyQueueIsEmpty();
 
         assertThat(raceApplicationRepository.findAll().size()).isOne();
 
-        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + persistedRaceApplication.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL+ "/" + persistedRaceApplication.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         assertThat(raceApplicationRepository.findAll().size()).isZero();

@@ -16,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class RaceControllerIntegrationTest extends BaseIntegrationTest {
 
+    public static final String BASE_URL = "/api/v1/race";
+
     @Test
     @WithMockUser(roles = "administrator")
     public void givenAdministrator_createRace_successAndEmitEvent() throws Exception {
@@ -27,7 +29,7 @@ public class RaceControllerIntegrationTest extends BaseIntegrationTest {
 
         verifyQueueIsEmpty();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/race")
+        mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(raceDTO))
                         .accept(MediaType.APPLICATION_JSON))
@@ -56,7 +58,7 @@ public class RaceControllerIntegrationTest extends BaseIntegrationTest {
 
         Assertions.assertThat(persistedRace).isNotEqualTo(expected);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/race/" + persistedRace.getId())
+        mockMvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + persistedRace.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(raceDTO))
                         .accept(MediaType.APPLICATION_JSON))
@@ -76,7 +78,7 @@ public class RaceControllerIntegrationTest extends BaseIntegrationTest {
 
         verifyQueueIsEmpty();
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/race/" + persistedRace.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + persistedRace.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         assertThat(raceRepository.findAll().size()).isZero();
@@ -87,27 +89,27 @@ public class RaceControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(roles = "applicant")
     public void givenApplicant_deleteRace_forbidden() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/race/" + RACE_ID))
+        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + RACE_ID))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
     @Test
     @WithMockUser(roles = "applicant")
     public void givenApplicant_editRace_forbidden() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/race/" + RACE_ID))
+        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + RACE_ID))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
     @Test
     @WithMockUser(roles = "applicant")
     public void givenApplicant_createRace_forbidden() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/race/" + RACE_ID))
+        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + RACE_ID))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
     @Test
     public void givenNoUser_deleteRace_unauthorized() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/race/" + RACE_ID))
+        mockMvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + RACE_ID))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 }
