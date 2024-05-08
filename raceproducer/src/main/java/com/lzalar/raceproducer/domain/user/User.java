@@ -30,7 +30,4 @@ public class User {
     private String email;
     @Column(name = "birth_date")
     private LocalDate birthDate;
-    @Enumerated(STRING)
-    @Column(name = "role")
-    private Role role;
 }

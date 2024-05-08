@@ -1,4 +1,4 @@
-package com.lzalar.raceproducer.service;
+package com.lzalar.raceproducer.service.race;
 
 import com.lzalar.clients.events.race.CreateRaceEvent;
 import com.lzalar.clients.events.race.DeleteRaceEvent;
@@ -10,7 +10,8 @@ import com.lzalar.raceproducer.domain.race.RaceApplication;
 import com.lzalar.raceproducer.producer.MessageProducer;
 import com.lzalar.raceproducer.repository.RaceApplicationRepository;
 import com.lzalar.raceproducer.repository.RaceRepository;
-import com.lzalar.raceproducer.repository.UserRepository;
+import com.lzalar.raceproducer.service.auth.AuthenticationService;
+import com.lzalar.raceproducer.service.mappers.RaceMapper;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,10 +26,11 @@ import java.util.UUID;
 public class RaceService {
 
     private final RaceRepository raceRepository;
-    private final UserRepository userRepository;
     private final RaceApplicationRepository raceApplicationRepository;
     private final RaceMapper raceMapper;
     private final MessageProducer messageProducer;
+    private final AuthenticationService authenticationService;
+
 
 
     public UUID createRace(RaceDTO raceDTO) {
@@ -67,8 +69,8 @@ public class RaceService {
     }
 
     public void applyToRace(UUID raceId, RaceApplication raceApplication) {
-        Race race = raceRepository.findById(raceId).get();
-        raceApplication.setUser(userRepository.findAll().get(0));
+        Race race = raceRepository.findById(raceId).orElseThrow();
+        raceApplication.setUser(authenticationService.getCurrentUser());
         raceApplication = raceApplicationRepository.save(raceApplication);
 
         messageProducer.sendMessage(new CreateRaceApplicationEvent(UUID.randomUUID(), raceApplication.getId(), raceApplication.getFirstName(), raceApplication.getLastName(), raceApplication.getClub(), raceId, race.getName(), race.getDistance().name(), raceApplication.getUser().getId()));

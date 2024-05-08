@@ -1,9 +1,7 @@
 package com.lzalar.raceproducer.web;
 
-import com.lzalar.raceproducer.domain.race.RaceApplication;
-import com.lzalar.raceproducer.repository.RaceApplicationRepository;
-import com.lzalar.raceproducer.service.RaceApplicationMapper;
-import com.lzalar.raceproducer.service.RaceService;
+import com.lzalar.raceproducer.service.mappers.RaceApplicationMapper;
+import com.lzalar.raceproducer.service.race.RaceService;
 import com.lzalar.raceproducer.web.dto.RaceApplicationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.lzalar.raceproducer.service;
+package com.lzalar.raceproducer.service.mappers;
 
 import com.lzalar.raceproducer.domain.race.Race;
 import com.lzalar.raceproducer.web.dto.RaceDTO;
