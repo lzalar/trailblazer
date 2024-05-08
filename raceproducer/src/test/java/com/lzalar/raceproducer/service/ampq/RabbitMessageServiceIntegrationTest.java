@@ -5,7 +5,6 @@ import com.lzalar.raceproducer.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.UUID;
 
@@ -17,9 +16,6 @@ class RabbitMessageServiceIntegrationTest extends BaseIntegrationTest {
     RabbitTemplate rabbitTemplate;
     @Autowired
     RabbitMessageService rabbitMessageService;
-    @Value("${rabbitmq.queue.name}")
-    private String queueName;
-
 
     @Test
     void sendRaceEvent_messageIsOnQueue() {
