@@ -6,6 +6,13 @@ spring:
     username: trailblazer
     password: secret
   rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1s
+          max-attempts: 3
+          max-interval: 1s
     username: trailblazer
     password: secret
     host: localhost
