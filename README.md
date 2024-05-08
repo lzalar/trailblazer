@@ -20,6 +20,15 @@ To build the Docker images of the service, use the following commands:
 ./gradlew :raceconsumer:bootBuildImage
 ```
 
+## Running the docker-compose
+
+the services are called trailbazer-producer and traiblazer-consumer
+and are started with all their dependencies by running the docker-compose command
+
+```bash
+docker-compose up
+```
+
 ## Keycloak Configuration
 
 There are two users configured in Keycloak:
