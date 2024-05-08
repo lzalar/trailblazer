@@ -21,7 +21,7 @@ public class RaceCommandEventListener {
     @RabbitHandler
     public void consume(ApplicationEvent message) {
         log.info("Received message from queue -> {}", message);
-        // todo save event and check if it was already processed
+
         projectors.forEach(projector -> projector.process(message));
 
         log.info("Processed event with id: {}", message.getEventId());

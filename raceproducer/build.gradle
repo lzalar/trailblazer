@@ -31,8 +31,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.flywaydb:flyway-core'
-//	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-//	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -45,8 +43,7 @@ dependencies {
 	testImplementation 'org.testcontainers:rabbitmq'
 	implementation project(':clients')
 	implementation project(':amqp')
-//	runtimeOnly 'org.postgresql:postgresql'
-	implementation 'org.postgresql:postgresql:42.7.3'
+	runtimeOnly 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {

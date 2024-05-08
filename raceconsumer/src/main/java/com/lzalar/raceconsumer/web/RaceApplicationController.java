@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/race-application")
+@RequestMapping("/api/v1/race/application")
 @RequiredArgsConstructor
 public class RaceApplicationController {
 
     private final RaceQueryService raceQueryService;
 
-    @GetMapping("/all/{userId}") // todo change
+    @GetMapping("/user/{userId}")
     public RaceApplicationPerUserDTO getAllRaceApplicationsForUser(@PathVariable UUID userId) {
         return raceQueryService.getAllRaceApplicationsForUser(userId);
     }
