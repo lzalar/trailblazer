@@ -5,14 +5,16 @@ import com.lzalar.clients.events.race.DeleteRaceEvent;
 import com.lzalar.clients.events.race.EditRaceEvent;
 import com.lzalar.clients.events.raceapplication.CreateRaceApplicationEvent;
 import com.lzalar.clients.events.raceapplication.DeleteRaceApplicationEvent;
-import com.lzalar.raceconsumer.domain.RaceApplicationViewProjection;
+import com.lzalar.raceconsumer.domain.RaceApplicationView;
 import com.lzalar.raceconsumer.repository.RaceApplicationViewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class RaceApplicationViewProjector implements Projector {
 
@@ -30,7 +32,7 @@ public class RaceApplicationViewProjector implements Projector {
     }
 
     private void handleCreateRaceApplicationEvent(CreateRaceApplicationEvent createRaceApplicationEvent) {
-        raceApplicationViewRepository.save(new RaceApplicationViewProjection(createRaceApplicationEvent.getRaceApplicationId(),
+        raceApplicationViewRepository.save(new RaceApplicationView(createRaceApplicationEvent.getRaceApplicationId(),
                 createRaceApplicationEvent.getFirstName(),
                 createRaceApplicationEvent.getLastName(),
                 createRaceApplicationEvent.getClub(),
@@ -47,7 +49,7 @@ public class RaceApplicationViewProjector implements Projector {
 
 
     private void handleDeleteRaceEvent(DeleteRaceEvent deleteRaceEvent) {
-        raceApplicationViewRepository.deleteByRace(deleteRaceEvent.getRaceId());
+        raceApplicationViewRepository.deleteByRaceId(deleteRaceEvent.getRaceId());
     }
 
     private void handleEditRaceEvent(EditRaceEvent editRaceEvent) {

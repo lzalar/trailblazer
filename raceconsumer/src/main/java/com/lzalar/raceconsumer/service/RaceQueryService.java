@@ -1,11 +1,13 @@
 package com.lzalar.raceconsumer.service;
 
 import com.lzalar.raceconsumer.web.dto.RaceApplicationPerUserDTO;
-import com.lzalar.raceconsumer.domain.RaceApplicationViewProjection;
-import com.lzalar.raceconsumer.domain.RaceViewProjection;
+import com.lzalar.raceconsumer.domain.RaceApplicationView;
+import com.lzalar.raceconsumer.domain.RaceView;
 import com.lzalar.raceconsumer.repository.RaceApplicationViewRepository;
 import com.lzalar.raceconsumer.repository.RaceViewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,7 @@ public class RaceQueryService {
     private final RaceViewRepository raceViewRepository;
 
 
-    public RaceApplicationViewProjection getRaceApplication(UUID raceApplicationId) {
+    public RaceApplicationView getRaceApplication(UUID raceApplicationId) {
         return raceApplicationViewRepository.findById(raceApplicationId).get();
     }
 
@@ -32,11 +34,11 @@ public class RaceQueryService {
         );
     }
 
-    public List<RaceViewProjection> getAllRaces() {
-        return raceViewRepository.findAll();
+    public Page<RaceView> getAllRaces(Pageable pageable) {
+        return raceViewRepository.findAll(pageable);
     }
 
-    public RaceViewProjection getRace(UUID raceId) {
+    public RaceView getRace(UUID raceId) {
         return raceViewRepository.findById(raceId).get();
     }
 }

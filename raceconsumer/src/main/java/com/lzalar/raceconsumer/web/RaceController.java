@@ -1,8 +1,10 @@
 package com.lzalar.raceconsumer.web;
 
-import com.lzalar.raceconsumer.domain.RaceViewProjection;
+import com.lzalar.raceconsumer.domain.RaceView;
 import com.lzalar.raceconsumer.service.RaceQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +21,12 @@ public class RaceController {
     private final RaceQueryService raceQueryService;
 
     @GetMapping
-    public List<RaceViewProjection> getAllRaces() {
-        return raceQueryService.getAllRaces();
+    public Page<RaceView> getAllRaces(Pageable pageable) {
+        return raceQueryService.getAllRaces(pageable);
     }
 
     @GetMapping("/{raceId}")
-    public RaceViewProjection getSingleRace(@PathVariable UUID raceId) {
+    public RaceView getSingleRace(@PathVariable UUID raceId) {
         return raceQueryService.getRace(raceId);
     }
 }
