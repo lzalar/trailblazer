@@ -41,7 +41,8 @@ public class RaceApplicationViewProjector implements Projector {
                 createRaceApplicationEvent.getClub(),
                 createRaceApplicationEvent.getRaceId(),
                 createRaceApplicationEvent.getRaceName(),
-                createRaceApplicationEvent.getDistance()
+                createRaceApplicationEvent.getDistance(),
+                createRaceApplicationEvent.getUserId()
                 ));
     }
 
