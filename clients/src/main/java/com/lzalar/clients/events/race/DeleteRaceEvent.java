@@ -1,12 +1,19 @@
 package com.lzalar.clients.events.race;
 
 import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.UUID;
 
-@Value
+@Getter
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class DeleteRaceEvent extends ApplicationEvent{
-    UUID raceId;
+    private final UUID raceId;
+
+    public DeleteRaceEvent(UUID eventId, UUID raceId) {
+        super(eventId);
+        this.raceId = raceId;
+    }
 }

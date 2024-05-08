@@ -2,19 +2,33 @@ package com.lzalar.clients.events.race.application;
 
 import com.lzalar.clients.events.race.ApplicationEvent;
 import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.UUID;
 
-@Value
+@Getter
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class CreateRaceApplicationEvent extends ApplicationEvent {
-    UUID id;
-    String firstName;
-    String lastName;
-    String club;
-    UUID raceId;
-    String raceName;
-    String distance;
-    UUID userId;
+    private final UUID id;
+    private final String firstName;
+    private final String lastName;
+    private final String club;
+    private final UUID raceId;
+    private final String raceName;
+    private final String distance;
+    private final UUID userId;
+
+    public CreateRaceApplicationEvent(UUID eventId, UUID id, String firstName, String lastName, String club, UUID raceId, String raceName, String distance, UUID userId) {
+        super(eventId);
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.club = club;
+        this.raceId = raceId;
+        this.raceName = raceName;
+        this.distance = distance;
+        this.userId = userId;
+    }
 }

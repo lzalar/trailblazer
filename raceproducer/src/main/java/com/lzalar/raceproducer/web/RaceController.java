@@ -19,6 +19,7 @@ public class RaceController {
     private final RaceService raceService;
 
     @PostMapping
+    @PreAuthorize("hasRole('administrator')")
     public UUID createRace(@RequestBody RaceDTO raceDTO, JwtAuthenticationToken principal) {
         return raceService.createRace(raceDTO);
     }

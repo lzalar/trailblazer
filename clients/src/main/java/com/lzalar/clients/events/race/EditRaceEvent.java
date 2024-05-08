@@ -1,14 +1,23 @@
 package com.lzalar.clients.events.race;
 
 import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.UUID;
 
-@Value
+@Getter
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class EditRaceEvent extends ApplicationEvent{
-    UUID raceId;
-    String name;
-    String distance;
+    private final UUID raceId;
+    private final String name;
+    private final String distance;
+
+    public EditRaceEvent(UUID eventId, UUID raceId, String name, String distance) {
+        super(eventId);
+        this.raceId = raceId;
+        this.name = name;
+        this.distance = distance;
+    }
 }
