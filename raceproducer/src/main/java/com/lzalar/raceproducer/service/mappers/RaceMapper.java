@@ -7,20 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RaceMapper {
 
-
     public Race mapFromDto(RaceDTO raceDTO){
         return Race.builder()
                 .id(raceDTO.id())
                 .name(raceDTO.name())
                 .distance(raceDTO.distance())
                 .build();
-    }
-
-    public RaceDTO mapToDto(Race race){
-        return new RaceDTO(
-                race.getId(),
-                race.getName(),
-                race.getDistance()
-        );
     }
 }

@@ -15,6 +15,7 @@ public class RaceApplicationMapper {
 
 
     public RaceApplication map(RaceApplicationDTO raceApplicationDTO) {
+
         return new RaceApplication(
                 null,
                 raceApplicationDTO.firstName(),
