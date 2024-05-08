@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.lzalar.raceproducer.constants.RaceTestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
@@ -19,8 +20,8 @@ class RaceMapperTest {
     @Test
     public void givenRaceDTO_mapFromDto_success() {
 
-        Race expected = RaceTestConstants.givenRace();
-        RaceDTO raceDTO = RaceTestConstants.givenRaceDTO();
+        Race expected = givenRace();
+        RaceDTO raceDTO = givenRaceDTO();
 
         Race race = raceMapper.mapFromDto(raceDTO);
 

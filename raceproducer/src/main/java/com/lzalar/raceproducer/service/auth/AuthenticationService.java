@@ -16,12 +16,13 @@ public class AuthenticationService {
     private final UserRepository userRepository;
 
     public UUID getCurrentUserId(){
-       JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
-       return UUID.fromString(jwtAuthenticationToken.getName());
+        if(SecurityContextHolder.getContext().getAuthentication() instanceof JwtAuthenticationToken jwtAuthenticationToken){
+            return UUID.fromString(jwtAuthenticationToken.getName());
+        }
+        throw new IllegalArgumentException();
     }
 
     public User getCurrentUser(){
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findById(UUID.fromString(jwtAuthenticationToken.getName())).orElseThrow();
+        return userRepository.findById(getCurrentUserId()).orElseThrow();
     }
 }
