@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class UserTestConstants {
 
-    public static final UUID USER_ID = UUID.fromString("777afffbe-42b5-416d-b5e9-9ff92c28cb87");
+    public static final UUID USER_ID = UUID.fromString("777affbe-42b5-416d-b5e9-9ff92c28cb87");
 
     public static User givenUser(){
         return givenUserBuilder().build();

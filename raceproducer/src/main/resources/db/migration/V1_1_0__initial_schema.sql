@@ -4,8 +4,7 @@ create table app_user
     first_name varchar(255) not null,
     last_name  varchar(255) not null,
     email      varchar(255) not null,
-    birth_date date         not null,
-    role       varchar(255) not null
+    birth_date date         not null
 );
 
 create table race
