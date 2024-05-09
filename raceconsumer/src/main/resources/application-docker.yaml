@@ -1,16 +1,23 @@
 spring:
   application:
-    name: raceproducer
+    name: raceconsumer
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/trailblazer
   datasource:
-    url: jdbc:postgresql://localhost:5432/trailblazer
+    url: jdbc:postgresql://localhost:5433/trailblazer
     username: trailblazer
     password: secret
   rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1s
+          max-attempts: 3
+          max-interval: 1s
     username: trailblazer
     password: secret
     host: localhost
@@ -23,11 +30,12 @@ spring:
     default-schema: public
 
 rabbitmq:
-    queue:
-      name: "trailblazer-queue"
-    exchange:
-      name: "trailblazer-exchange"
-    routing:
-      key: "routing_key"
+  queue:
+    name: "trailblazer-queue"
+  exchange:
+    name: "trailblazer-exchange"
+  routing:
+    key: "routing_key"
 server:
   port: 8081
+

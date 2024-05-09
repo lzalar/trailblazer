@@ -22,14 +22,31 @@ To build the Docker images of the service, use the following commands:
 
 ## Running the docker-compose
 
-the services are called trailbazer-producer and traiblazer-consumer
-and are started with all their dependencies by running the docker-compose command
+Simply start the system with this simple command docker-compose up! (Or not)
+Sadly keycloak has a problem with the iss token host url 
+(https://stackoverflow.com/questions/50670734/keycloak-in-docker-compose-network)
+
+to solve the issue we will need to run
+
+### Linux/Mac
+```bash
+sudo bash -c 'echo "127.0.0.1 keycloak" >> /etc/hosts'
+```
+
+### Windows
+```powershell
+Add-Content -Path "C:\Windows\System32\drivers\etc\hosts" -Value "127.0.0.1 keycloak"
+```
+
+### Ready to spin up the system? run:
 
 ```bash
 docker-compose up
 ```
 
 ## Keycloak Configuration
+
+#### http://keycloak:8080/admin/master/console/
 
 There are two users configured in Keycloak:
 
@@ -45,13 +62,19 @@ There are two users configured in Keycloak:
 
 ## Testing the API
 
+### OPEN-API
+
+- **Trailblazer-producer:** http://localhost:8081/swagger-ui/index.html#/
+- **Trailblazer-consumer:** http://localhost:8082/swagger-ui/index.html#/
+
+
 The easiest way to test the API is via Postman using the Authorization Code with PKCE grant type.
 
 ### Keycloak Information
 
 - **Client ID:** trailblazer-app
 - **Client Secret:** tJc5LJv1Rngd5IFVtqASGGmrPgavAJyc
-- **Token Endpoint:** http://localhost:8090/realms/trailblazer/protocol/openid-connect/token
+- **Token Endpoint:** http://keycloak:8080/realms/trailblazer/protocol/openid-connect/token
 
 ### Get Access Token via cURL
 
@@ -63,7 +86,7 @@ curl -d 'username=admin' \
      -d "client_id=trailblazer-app" \
      -d "client_secret=tJc5LJv1Rngd5IFVtqASGGmrPgavAJyc" \
      -d "grant_type=password" \
-     "http://localhost:8090/realms/trailblazer/protocol/openid-connect/token"
+     "http://keycloak:8080/realms/trailblazer/protocol/openid-connect/token"
 ```
 
 To get an access token for the user Ivan, use the following cURL command:
@@ -74,5 +97,7 @@ curl -d 'username=ivan' \
      -d "client_id=trailblazer-app" \
      -d "client_secret=tJc5LJv1Rngd5IFVtqASGGmrPgavAJyc" \
      -d "grant_type=password" \
-     "http://localhost:8090/realms/trailblazer/protocol/openid-connect/token"
+     "http://keycloak:8080/realms/trailblazer/protocol/openid-connect/token"
 ```
+
+

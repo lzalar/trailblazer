@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8090/realms/trailblazer
+          issuer-uri: http://localhost:8080/realms/trailblazer
   datasource:
     url: jdbc:postgresql://localhost:5433/trailblazer
     username: trailblazer
@@ -37,4 +37,4 @@ rabbitmq:
   routing:
     key: "routing_key"
 server:
-  port: 8081
+  port: 8082
