@@ -44,6 +44,9 @@ Add-Content -Path "C:\Windows\System32\drivers\etc\hosts" -Value "127.0.0.1 keyc
 docker-compose up
 ```
 
+if you want to run the services locally you will have to modify the docker compose
+removing '--hostname=keycloak' from the keycloak commands.
+
 ## Keycloak Configuration
 
 #### http://keycloak:8080/admin/master/console/
